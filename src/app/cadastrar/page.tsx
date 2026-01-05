@@ -123,8 +123,8 @@ export default function NovoJogadorPage() {
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* GRID RESPONSIVO */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <Input name="nome" placeholder="Nome" required />
-              <Input name="sobrenome" placeholder="Sobrenome" required />
+              <Input name="nome" placeholder="Nome" />
+              <Input name="sobrenome" placeholder="Sobrenome" />
 
               {/* SELECT DE PAÍS */}
               <div className="sm:col-span-2 w-full">
@@ -153,7 +153,6 @@ export default function NovoJogadorPage() {
                   onChange={(e) =>
                     setWhatsapp(formatPhone(e.target.value, country))
                   }
-                  required
                 />
               </div>
 
@@ -172,12 +171,7 @@ export default function NovoJogadorPage() {
 
               {/* SENHA */}
               <div className="sm:col-span-2">
-                <Input
-                  type="password"
-                  name="senha"
-                  placeholder="Senha"
-                  required
-                />
+                <Input type="password" name="senha" placeholder="Senha" />
               </div>
             </div>
 

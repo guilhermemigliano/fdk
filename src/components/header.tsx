@@ -16,6 +16,7 @@ import {
 
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { createWeeklyMatch } from '@/lib/services/createWeeklyMatch';
 
 type User = {
   name: string;
@@ -35,6 +36,11 @@ export function Header({ user }: HeaderProps) {
     router.push('/login');
     router.refresh(); // garante que o layout atualize
   }
+
+  async function createMatch() {
+    await createWeeklyMatch();
+  }
+
   return (
     <header className="w-full border-b bg-background">
       <div className="flex h-14 items-center justify-between px-4">
@@ -131,13 +137,15 @@ export function Header({ user }: HeaderProps) {
                     <DropdownMenuSeparator />
 
                     <DropdownMenuItem asChild>
-                      <Link href="/admin/partidas/nova">Criar partida</Link>
-                    </DropdownMenuItem>
-
-                    <DropdownMenuItem asChild>
                       <Link href="/admin/confirmacoes">
                         Confirmações (Admin)
                       </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem
+                      onClick={createMatch}
+                      className="cursor-pointer text-red-600 focus:text-red-600"
+                    >
+                      Criar partida
                     </DropdownMenuItem>
                   </>
                 )}
