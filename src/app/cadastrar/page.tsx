@@ -5,6 +5,7 @@ import { criarJogador } from './actions';
 import { countries } from '@/lib/countries';
 import { formatPhone } from '@/lib/phone';
 import { compressImage } from './utils';
+import { motion } from 'framer-motion';
 import Link from 'next/link';
 
 import Image from 'next/image';
@@ -105,124 +106,135 @@ export default function NovoJogadorPage() {
 
   return (
     <div className="max-w-xl mx-auto mt-10 px-4">
-      <Card className="shadow-md border rounded-xl">
-        <CardHeader>
-          <CardTitle className="text-2xl font-bold text-center">
-            Cadastrar Jogador
-          </CardTitle>
-        </CardHeader>
+      <motion.div
+        initial={{ opacity: 0, y: 24 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, ease: 'easeOut' }}
+        className="w-full max-w-xl"
+      >
+        <Card className="shadow-md border rounded-xl">
+          <CardHeader>
+            <CardTitle className="text-2xl font-bold text-center">
+              Cadastrar Jogador
+            </CardTitle>
+          </CardHeader>
 
-        <CardContent>
-          <div className="flex items-center justify-center mb-8">
-            {fotoBase64 && (
-              <Image
-                src={fotoBase64}
-                alt="Preview"
-                width={50}
-                height={50}
-                className="w-24 h-24 rounded-lg object-cover border mt-2"
-              />
-            )}
-          </div>
+          <CardContent>
+            <div className="flex items-center justify-center mb-8">
+              {fotoBase64 && (
+                <Image
+                  src={fotoBase64}
+                  alt="Preview"
+                  width={50}
+                  height={50}
+                  className="w-24 h-24 rounded-lg object-cover border mt-2"
+                />
+              )}
+            </div>
 
-          <form onSubmit={handleSubmit} className="space-y-6">
-            {/* GRID RESPONSIVO */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <Input name="nome" placeholder="Nome" />
-              <Input name="sobrenome" placeholder="Sobrenome" />
+            <form onSubmit={handleSubmit} className="space-y-6">
+              {/* GRID RESPONSIVO */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <Input name="nome" placeholder="Nome" />
+                <Input name="sobrenome" placeholder="Sobrenome" />
 
-              {/* SELECT DE PAÍS */}
-              <div className="sm:col-span-2 w-full">
-                <input type="hidden" name="country" value={country} />
+                {/* SELECT DE PAÍS */}
+                <div className="sm:col-span-2 w-full">
+                  <input type="hidden" name="country" value={country} />
 
-                <Select value={country} onValueChange={setCountry}>
-                  <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Selecione o país" />
-                  </SelectTrigger>
-                  <SelectContent className="w-full">
-                    {countries.map((c) => (
-                      <SelectItem key={c.code} value={c.code}>
-                        {c.label} ({c.dial})
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                  <Select value={country} onValueChange={setCountry}>
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Selecione o país" />
+                    </SelectTrigger>
+                    <SelectContent className="w-full">
+                      {countries.map((c) => (
+                        <SelectItem key={c.code} value={c.code}>
+                          {c.label} ({c.dial})
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                {/* WHATSAPP */}
+                <div className="sm:col-span-2">
+                  <Input
+                    name="whatsapp"
+                    placeholder={selectedCountry.mask}
+                    value={whatsapp}
+                    onChange={(e) =>
+                      setWhatsapp(formatPhone(e.target.value, country))
+                    }
+                  />
+                </div>
+
+                {/* POSIÇÃO */}
+                <div className="sm:col-span-2">
+                  <Select name="posicao">
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Posição" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="Goleiro">Goleiro</SelectItem>
+                      <SelectItem value="Jogador">Jogador</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                {/* SENHA */}
+                <div className="sm:col-span-2">
+                  <Input type="password" name="senha" placeholder="Senha" />
+                </div>
               </div>
 
-              {/* WHATSAPP */}
-              <div className="sm:col-span-2">
-                <Input
-                  name="whatsapp"
-                  placeholder={selectedCountry.mask}
-                  value={whatsapp}
-                  onChange={(e) =>
-                    setWhatsapp(formatPhone(e.target.value, country))
-                  }
+              {/* FOTO */}
+              <div className="space-y-2">
+                <label className="block font-medium">Foto</label>
+                <Input type="file" accept="image/*" onChange={handleImagem} />
+              </div>
+
+              <div className="flex items-start gap-2">
+                <Checkbox
+                  id="terms"
+                  checked={acceptTerms}
+                  onCheckedChange={(value) => setAcceptTerms(!!value)}
+                />
+
+                <label
+                  htmlFor="terms"
+                  className="text-sm leading-tight cursor-pointer"
+                >
+                  Eu li e concordo com os{' '}
+                  <Link
+                    href="/termos"
+                    target="_blank"
+                    className="text-primary underline"
+                  >
+                    termos de uso
+                  </Link>
+                </label>
+
+                {/* input hidden para o FormData */}
+                <input
+                  type="hidden"
+                  name="acceptTerms"
+                  value={acceptTerms ? 'true' : ''}
                 />
               </div>
 
-              {/* POSIÇÃO */}
-              <div className="sm:col-span-2">
-                <Select name="posicao">
-                  <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Posição" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="Goleiro">Goleiro</SelectItem>
-                    <SelectItem value="Jogador">Jogador</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-
-              {/* SENHA */}
-              <div className="sm:col-span-2">
-                <Input type="password" name="senha" placeholder="Senha" />
-              </div>
-            </div>
-
-            {/* FOTO */}
-            <div className="space-y-2">
-              <label className="block font-medium">Foto</label>
-              <Input type="file" accept="image/*" onChange={handleImagem} />
-            </div>
-
-            <div className="flex items-start gap-2">
-              <Checkbox
-                id="terms"
-                checked={acceptTerms}
-                onCheckedChange={(value) => setAcceptTerms(!!value)}
-              />
-
-              <label
-                htmlFor="terms"
-                className="text-sm leading-tight cursor-pointer"
-              >
-                Eu li e concordo com os{' '}
-                <Link
-                  href="/termos"
-                  target="_blank"
-                  className="text-primary underline"
+              <CardFooter className="px-0">
+                <Button
+                  type="submit"
+                  className="w-full"
+                  disabled={isSubmitting}
                 >
-                  termos de uso
-                </Link>
-              </label>
-
-              {/* input hidden para o FormData */}
-              <input
-                type="hidden"
-                name="acceptTerms"
-                value={acceptTerms ? 'true' : ''}
-              />
-            </div>
-
-            <CardFooter className="px-0">
-              <Button type="submit" className="w-full" disabled={isSubmitting}>
-                {isSubmitting ? 'Cadastrando...' : 'Cadastrar'}
-              </Button>
-            </CardFooter>
-          </form>
-        </CardContent>
-      </Card>
+                  {isSubmitting ? 'Cadastrando...' : 'Cadastrar'}
+                </Button>
+              </CardFooter>
+            </form>
+          </CardContent>
+        </Card>
+      </motion.div>
     </div>
   );
 }
