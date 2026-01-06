@@ -63,6 +63,12 @@ const MatchSchema = new Schema(
         ref: 'Player',
       },
     ],
+    updatedBy: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'Player',
+      },
+    ],
   },
   {
     timestamps: true,

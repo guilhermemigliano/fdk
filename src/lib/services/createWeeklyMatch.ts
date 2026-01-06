@@ -35,6 +35,7 @@ export async function createWeeklyMatch() {
     playersTeam2: [],
     confirmation: [],
     confirmationPending: [],
+    updatedBy: [],
   });
 
   console.log('Partida semanal criada:', matchDate);

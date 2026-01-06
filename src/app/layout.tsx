@@ -44,7 +44,12 @@ export default async function RootLayout({
           }
         />
         {children}
-        <Toaster />
+        <Toaster
+          position="top-center"
+          toastOptions={{
+            className: 'mt-4',
+          }}
+        />
       </body>
     </html>
   );

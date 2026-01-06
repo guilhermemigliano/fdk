@@ -11,6 +11,9 @@ export const playerSchema = z
     fotoBase64: z.string().min(20),
     senha: z.string().min(6),
     role: z.enum(['admin', 'user']).default('user'),
+    acceptTerms: z.string().refine((v) => v === 'true', {
+      message: 'É necessário aceitar os termos',
+    }),
   })
   .refine(
     (data) => {

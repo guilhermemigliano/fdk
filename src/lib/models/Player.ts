@@ -15,6 +15,11 @@ const PlayerSchema = new Schema(
     fotoBase64: { type: String, required: true }, // base64 da imagem (limitado/validado na action)
     senhaHash: { type: String, required: true },
     role: { type: String, enum: ['admin', 'user'], default: 'user' },
+    acceptTerms: {
+      type: Boolean,
+      required: true,
+      default: false,
+    },
   },
   {
     timestamps: true,

@@ -5,6 +5,7 @@ import { criarJogador } from './actions';
 import { countries } from '@/lib/countries';
 import { formatPhone } from '@/lib/phone';
 import { compressImage } from './utils';
+import Link from 'next/link';
 
 import Image from 'next/image';
 
@@ -17,6 +18,8 @@ import {
   CardContent,
   CardFooter,
 } from '@/components/ui/card';
+
+import { Checkbox } from '@/components/ui/checkbox';
 
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -35,6 +38,7 @@ export default function NovoJogadorPage() {
   const [country, setCountry] = useState('BR');
   const [whatsapp, setWhatsapp] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [acceptTerms, setAcceptTerms] = useState(false);
 
   const router = useRouter();
 
@@ -56,6 +60,7 @@ export default function NovoJogadorPage() {
     if (!form.posicao.value) return 'Selecione uma posição';
     if (!form.senha.value) return 'Preencha o campo senha';
     if (!fotoBase64) return 'Adicione uma foto';
+    if (!form.acceptTerms.value) return 'Necessário aceitar os termos';
 
     return false;
   }
@@ -179,6 +184,35 @@ export default function NovoJogadorPage() {
             <div className="space-y-2">
               <label className="block font-medium">Foto</label>
               <Input type="file" accept="image/*" onChange={handleImagem} />
+            </div>
+
+            <div className="flex items-start gap-2">
+              <Checkbox
+                id="terms"
+                checked={acceptTerms}
+                onCheckedChange={(value) => setAcceptTerms(!!value)}
+              />
+
+              <label
+                htmlFor="terms"
+                className="text-sm leading-tight cursor-pointer"
+              >
+                Eu li e concordo com os{' '}
+                <Link
+                  href="/termos"
+                  target="_blank"
+                  className="text-primary underline"
+                >
+                  termos de uso
+                </Link>
+              </label>
+
+              {/* input hidden para o FormData */}
+              <input
+                type="hidden"
+                name="acceptTerms"
+                value={acceptTerms ? 'true' : ''}
+              />
             </div>
 
             <CardFooter className="px-0">

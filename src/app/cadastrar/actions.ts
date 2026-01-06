@@ -19,10 +19,12 @@ export async function criarJogador(formData: FormData) {
       fotoBase64: formData.get('fotoBase64'),
       senha: formData.get('senha'),
       role: formData.get('role') || 'user',
+      acceptTerms: formData.get('acceptTerms'),
     };
 
     // Validação Zod
     const parsed = playerSchema.safeParse(raw);
+
     if (!parsed.success) {
       return {
         error: 'Erro de validação.',
