@@ -7,8 +7,10 @@ const MatchSchema = new Schema(
       required: true,
     },
     matchId: {
-      type: 'String',
+      type: String,
       required: true,
+      unique: true, // 🔒 importante
+      index: true,
     },
 
     isClosed: {

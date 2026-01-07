@@ -28,9 +28,9 @@ export default async function RootLayout({
   const user = await getAuthUser();
 
   return (
-    <html lang="en">
+    <html lang="en" className="flex min-h-screen">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col flex-1 `}
       >
         <Header
           user={

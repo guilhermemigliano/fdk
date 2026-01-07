@@ -53,7 +53,10 @@ export default function LoginPage() {
 
     toast.success('Bem-vindo!');
 
-    window.location.href = '/';
+    const params = new URLSearchParams(window.location.search);
+    const redirectTo = params.get('redirect') || '/';
+
+    window.location.href = redirectTo;
   }
 
   return (
