@@ -58,7 +58,7 @@ export const MatchItem = async ({ match }: any) => {
       <div className="bg-emerald-700/20 rounded-xl columns-2 w-[85%] mt-2">
         {/* TEAM 1 */}
         <div>
-          {playersTeam1.map((pl) => {
+          {playersTeam1.map((pl: any) => {
             return (
               <ListPlayers
                 key={pl.id}
@@ -71,7 +71,7 @@ export const MatchItem = async ({ match }: any) => {
         </div>
         {/* TEAM 2 */}
         <div>
-          {playersTeam2.map((pl) => {
+          {playersTeam2.map((pl: any) => {
             return (
               <ListPlayers
                 key={pl.id}
