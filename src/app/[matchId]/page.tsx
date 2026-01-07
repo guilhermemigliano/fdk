@@ -1,6 +1,7 @@
 import { redirect } from 'next/navigation';
 import { getAuthUser } from '@/lib/auth';
-import { confirmPresence } from '@/lib/services/confirmPresence';
+import { getMatchConfirmation } from '@/lib/services/getMatchConfirmation';
+import ConfirmClient from './confirm-client';
 
 interface Props {
   params: Promise<{ matchId: string }>;
@@ -9,17 +10,23 @@ interface Props {
 export default async function ConfirmMatchPage({ params }: Props) {
   const { matchId } = await params;
 
-  // 🔐 verifica login
   const user = await getAuthUser();
-
   if (!user) {
     redirect(`/login?redirect=/${matchId}`);
   }
 
-  const result = await confirmPresence(matchId);
+  const data = await getMatchConfirmation(matchId);
 
-  // ❌ match fechado
-  if (result.error === 'MATCH_CLOSED') {
+  if (data.error === 'MATCH_NOT_FOUND') {
+    return (
+      <Message
+        title="Partida não encontrada"
+        description="Essa partida não existe."
+      />
+    );
+  }
+
+  if (data.match.isClosed) {
     return (
       <Message
         title="Partida encerrada"
@@ -28,49 +35,20 @@ export default async function ConfirmMatchPage({ params }: Props) {
     );
   }
 
-  if (result.error === 'MATCH_NOT_FOUND') {
-    return (
-      <Message
-        title="Partida não encontrada"
-        description="A partida dessa semana ainda não foi criada."
-      />
-    );
-  }
+  const matchDate = new Date(data.match.date);
 
-  // ❌ já confirmado
-  if (result.error === 'ALREADY_CONFIRMED') {
-    return (
-      <Message
-        title="Presença já confirmada"
-        description="Você já confirmou presença nessa partida."
-      />
-    );
-  }
+  const formattedDate = matchDate.toLocaleDateString('pt-BR', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+  });
 
-  if (result.error === 'INVALID_MATCH_ID') {
-    return (
-      <Message
-        title="Link inválido"
-        description="O link da partida não é válido."
-      />
-    );
-  }
-
-  // ❌ erro genérico
-  if (result.error) {
-    return (
-      <Message
-        title="Erro"
-        description="Não foi possível confirmar sua presença."
-      />
-    );
-  }
-
-  // ✅ sucesso
   return (
-    <Message
-      title="Presença confirmada ⚽"
-      description="Sua presença foi registrada com sucesso!"
+    <ConfirmClient
+      matchId={matchId}
+      initialConfirmed={data.isConfirmed}
+      date={formattedDate}
+      time={'21:30'}
     />
   );
 }

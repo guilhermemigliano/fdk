@@ -16,7 +16,8 @@ import {
 
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { createWeeklyMatch } from '@/lib/services/createWeeklyMatch';
+import { createWeeklyMatchByAdmin } from '@/lib/services/createWeeklyMatch';
+import { toast } from 'sonner';
 
 type User = {
   name: string;
@@ -38,7 +39,13 @@ export function Header({ user }: HeaderProps) {
   }
 
   async function createMatch() {
-    await createWeeklyMatch();
+    const res = await createWeeklyMatchByAdmin();
+
+    if (res.error) {
+      toast.warning('Partida da semana já existente');
+    } else {
+      toast.success('Partida criada com sucesso!');
+    }
   }
 
   return (
@@ -124,9 +131,9 @@ export function Header({ user }: HeaderProps) {
                   <Link href="/perfil">Perfil</Link>
                 </DropdownMenuItem>
 
-                <DropdownMenuItem asChild>
+                {/* <DropdownMenuItem asChild>
                   <Link href="/minhas-partidas">Minhas partidas</Link>
-                </DropdownMenuItem>
+                </DropdownMenuItem> */}
 
                 <DropdownMenuItem asChild>
                   <Link href="/confirmacoes">Confirmações</Link>
@@ -137,13 +144,11 @@ export function Header({ user }: HeaderProps) {
                     <DropdownMenuSeparator />
 
                     <DropdownMenuItem asChild>
-                      <Link href="/admin/confirmacoes">
-                        Confirmações (Admin)
-                      </Link>
+                      <Link href="/admin/partidas">Partidas</Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem
                       onClick={createMatch}
-                      className="cursor-pointer text-red-600 focus:text-red-600"
+                      className="cursor-pointer"
                     >
                       Criar partida
                     </DropdownMenuItem>

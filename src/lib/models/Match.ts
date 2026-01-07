@@ -30,26 +30,30 @@ const MatchSchema = new Schema(
 
     playersTeam1: [
       {
-        type: Schema.Types.ObjectId,
-        ref: 'Player',
+        player: { type: Schema.Types.ObjectId, ref: 'Player' },
+        gol: Number,
+        golContra: Number,
       },
     ],
 
     playersTeam2: [
       {
-        type: Schema.Types.ObjectId,
-        ref: 'Player',
+        player: { type: Schema.Types.ObjectId, ref: 'Player' },
+        gol: Number,
+        golContra: Number,
       },
     ],
 
     team1: {
       type: String,
       required: true,
+      default: 'Time 1',
     },
 
     team2: {
       type: String,
       required: true,
+      default: 'Time 2',
     },
 
     confirmation: [
