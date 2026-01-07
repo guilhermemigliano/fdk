@@ -104,12 +104,6 @@ export function Header({ user }: HeaderProps) {
 
         {/* DIREITA — USUÁRIO */}
 
-        {user && user.role === 'admin' && (
-          <>
-            <button onClick={createMatch}>criar partida</button>
-          </>
-        )}
-
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             {user ? (
