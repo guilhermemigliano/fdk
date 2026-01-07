@@ -42,4 +42,6 @@ export async function createWeeklyMatch() {
     confirmationPending: [],
     updatedBy: [],
   });
+
+  return { message: 'Partida criada com sucesso!' };
 }

@@ -16,7 +16,8 @@ import {
 
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { createWeeklyMatchByAdmin } from '@/lib/services/createWeeklyMatchByAdmin';
+//import { createWeeklyMatchByAdmin } from '@/lib/services/createWeeklyMatchByAdmin';
+import { createWeeklyMatch } from '@/lib/services/createWeeklyMatch';
 import { toast } from 'sonner';
 import { useTransition } from 'react';
 
@@ -43,7 +44,7 @@ export function Header({ user }: HeaderProps) {
   async function createMatch() {
     startTransition(async () => {
       try {
-        const res = await createWeeklyMatchByAdmin();
+        const res = await createWeeklyMatch();
         if (res.error) {
           toast.warning('Partida da semana já existente');
         } else {
