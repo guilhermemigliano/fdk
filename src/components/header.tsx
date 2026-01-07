@@ -16,7 +16,7 @@ import {
 
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { createWeeklyMatchByAdmin } from '@/lib/services/createWeeklyMatch';
+import { createWeeklyMatchByAdmin } from '@/lib/services/createWeeklyMatchByAdmin';
 import { toast } from 'sonner';
 
 type User = {
@@ -40,7 +40,7 @@ export function Header({ user }: HeaderProps) {
 
   async function createMatch() {
     const res = await createWeeklyMatchByAdmin();
-
+    console.log(res);
     if (res.error) {
       toast.warning('Partida da semana já existente');
     } else {

@@ -1,10 +1,29 @@
 'use server';
 
 import { connectDB } from '@/lib/db';
+import { cookies } from 'next/headers';
+import { verifyJwt } from '@/lib/jwt';
 import Match from '@/lib/models/Match';
 import { getNextThursday } from '@/lib/date';
 
-export async function createWeeklyMatch() {
+export async function createWeeklyMatchByAdmin() {
+  const cookieStore = await cookies();
+  const token = cookieStore.get('token')?.value;
+
+  if (!token) {
+    throw new Error('Não autenticado');
+  }
+
+  let payload;
+  try {
+    payload = verifyJwt(token);
+  } catch {
+    throw new Error('Token inválido');
+  }
+
+  if (payload.role !== 'admin') {
+    throw new Error('Acesso negado');
+  }
   await connectDB();
 
   const matchDate = getNextThursday();
@@ -18,8 +37,7 @@ export async function createWeeklyMatch() {
   });
 
   if (exists) {
-    console.log('Partida da semana já existe');
-    return;
+    return { error: 'Partida da semana já existente' };
   }
 
   await Match.create({
@@ -37,4 +55,6 @@ export async function createWeeklyMatch() {
     confirmationPending: [],
     updatedBy: [],
   });
+
+  return { message: 'Partida criada com sucesso!' };
 }
