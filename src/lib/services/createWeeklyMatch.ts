@@ -10,16 +10,21 @@ export async function createWeeklyMatch() {
   const matchDate = getNextThursday();
 
   // Evita criar duas partidas para a mesma data
+  const startOfDay = new Date(matchDate);
+  startOfDay.setHours(0, 0, 0, 0);
+
+  const endOfDay = new Date(matchDate);
+  endOfDay.setHours(23, 59, 59, 999);
+
   const exists = await Match.findOne({
     date: {
-      $gte: new Date(matchDate.setHours(0, 0, 0, 0)),
-      $lte: new Date(matchDate.setHours(23, 59, 59, 999)),
+      $gte: startOfDay,
+      $lte: endOfDay,
     },
   });
 
   if (exists) {
-    console.log('Partida da semana já existe');
-    return;
+    return { error: 'Partida da semana já existente' };
   }
 
   await Match.create({
