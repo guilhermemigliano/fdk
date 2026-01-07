@@ -18,6 +18,7 @@ import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { createWeeklyMatchByAdmin } from '@/lib/services/createWeeklyMatchByAdmin';
 import { toast } from 'sonner';
+import { useTransition } from 'react';
 
 type User = {
   name: string;
@@ -30,6 +31,7 @@ interface HeaderProps {
 }
 
 export function Header({ user }: HeaderProps) {
+  const [isPending, startTransition] = useTransition();
   const router = useRouter();
 
   async function handleLogout() {
@@ -39,13 +41,18 @@ export function Header({ user }: HeaderProps) {
   }
 
   async function createMatch() {
-    const res = await createWeeklyMatchByAdmin();
-    console.log(res);
-    if (res.error) {
-      toast.warning('Partida da semana já existente');
-    } else {
-      toast.success('Partida criada com sucesso!');
-    }
+    startTransition(async () => {
+      try {
+        const res = await createWeeklyMatchByAdmin();
+        if (res.error) {
+          toast.warning('Partida da semana já existente');
+        } else {
+          toast.success('Partida criada com sucesso!');
+        }
+      } catch (err: any) {
+        toast.warning(err?.message || 'Você não tem permissão para isso.');
+      }
+    });
   }
 
   return (
