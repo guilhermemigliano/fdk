@@ -12,7 +12,7 @@ export default async function ConfirmMatchPage({ params }: Props) {
 
   const user = await getAuthUser();
   if (!user) {
-    redirect(`/login?redirect=/${matchId}`);
+    redirect(`/login?redirect=/partida/${matchId}`);
   }
 
   const data = await getMatchConfirmation(matchId);

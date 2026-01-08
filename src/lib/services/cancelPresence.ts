@@ -5,6 +5,8 @@ import { verifyJwt } from '@/lib/jwt';
 import { connectDB } from '@/lib/db';
 import { hasMatchExpired } from '@/lib/services/confirmCancelLimit';
 import Match from '@/lib/models/Match';
+import Player from '@/lib/models/Player';
+import { pusherServer } from '@/lib/pusher/server';
 
 export async function cancelPresence(matchId: string) {
   const cookieStore = await cookies();
@@ -38,6 +40,12 @@ export async function cancelPresence(matchId: string) {
   );
 
   await match.save();
+
+  const user = await Player.findById(userId).select('nome sobrenome');
+  await pusherServer.trigger(`match-${matchId}`, 'canceled', {
+    nome: user.nome,
+    sobrenome: user.sobrenome,
+  });
 
   return { success: true };
 }

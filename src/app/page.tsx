@@ -90,8 +90,6 @@ export const MatchItem = async ({ match }: any) => {
 export default async function HomePage() {
   const match = await getLastClosedMatch();
 
-  console.log(match);
-
   if (!match) {
     return (
       <div className="p-6 text-center text-muted-foreground">

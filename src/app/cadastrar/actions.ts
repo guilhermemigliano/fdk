@@ -26,9 +26,13 @@ export async function criarJogador(formData: FormData) {
     const parsed = playerSchema.safeParse(raw);
 
     if (!parsed.success) {
+      const allErrors = parsed.error.flatten().fieldErrors;
+
+      const firstField = Object.keys(allErrors)[0];
+      const firstMessage = allErrors[firstField]?.[0] ?? 'Erro de validação.';
+
       return {
-        error: 'Erro de validação.',
-        details: parsed.error.flatten().fieldErrors,
+        error: firstMessage,
       };
     }
 

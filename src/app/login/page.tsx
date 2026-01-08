@@ -51,12 +51,14 @@ export default function LoginPage() {
       return;
     }
 
+    if (res.success) {
+      const params = new URLSearchParams(window.location.search);
+      const redirectTo = params.get('redirect') || '/';
+
+      window.location.href = redirectTo;
+    }
+
     toast.success('Bem-vindo!');
-
-    const params = new URLSearchParams(window.location.search);
-    const redirectTo = params.get('redirect') || '/';
-
-    window.location.href = redirectTo;
   }
 
   return (

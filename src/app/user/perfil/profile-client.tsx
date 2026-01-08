@@ -55,7 +55,7 @@ export default function ProfileClient({ user }: any) {
 
     if (res.error) {
       toast.error(res.error);
-      console.log(res);
+
       return;
     }
 

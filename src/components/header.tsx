@@ -20,6 +20,7 @@ import { createWeeklyMatchByAdmin } from '@/lib/services/createWeeklyMatchByAdmi
 
 import { toast } from 'sonner';
 import { useTransition } from 'react';
+import { NotifyButton } from '@/components/notify-button';
 
 type User = {
   name: string;
@@ -104,6 +105,7 @@ export function Header({ user }: HeaderProps) {
             FDK
           </Link>
         </div>
+        {user && <NotifyButton />}
 
         {/* DIREITA — USUÁRIO */}
 
