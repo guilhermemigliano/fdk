@@ -136,7 +136,7 @@ export function Header({ user }: HeaderProps) {
             {user ? (
               <>
                 <DropdownMenuItem asChild>
-                  <Link href="/perfil">Perfil</Link>
+                  <Link href="/user/perfil">Perfil</Link>
                 </DropdownMenuItem>
 
                 {/* <DropdownMenuItem asChild>
@@ -144,7 +144,7 @@ export function Header({ user }: HeaderProps) {
                 </DropdownMenuItem> */}
 
                 <DropdownMenuItem asChild>
-                  <Link href="/confirmacoes">Confirmações</Link>
+                  <Link href="/user/confirmacoes">Confirmações</Link>
                 </DropdownMenuItem>
 
                 {user.role === 'admin' && (

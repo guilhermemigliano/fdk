@@ -15,7 +15,14 @@ export async function getAuthUser() {
 
     await connectDB();
 
-    return await Player.findById(payload.sub).select('-senhaHash');
+    const user = await Player.findById(payload.sub).select('-senhaHash');
+    if (!user) return null;
+
+    return {
+      ...user.toObject(),
+      sub: payload.sub,
+      role: payload.role,
+    };
   } catch {
     return null;
   }
