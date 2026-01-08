@@ -1,4 +1,16 @@
+import { initServiceWorker } from './init-sw';
+
 export async function subscribePush() {
+  console.log('Inicializando SW...');
+  const registration = await initServiceWorker();
+
+  if (!registration) {
+    console.error('SW não inicializado');
+    return 'sw-failed';
+  }
+
+  console.log('SW inicializado, pedindo permissão...');
+
   if (typeof window === 'undefined') return;
 
   console.log('entrou aqui 1');
@@ -11,7 +23,7 @@ export async function subscribePush() {
   // Se já está permitido
   if (Notification.permission === 'granted') {
     console.log('entrou aqui 3');
-    await doSubscribe();
+    await doSubscribe(registration);
     return 'granted';
   }
 
@@ -23,13 +35,14 @@ export async function subscribePush() {
     return permission; // "denied"
   }
 
-  await doSubscribe();
+  await doSubscribe(registration);
   return 'granted';
 }
 
-async function doSubscribe() {
+async function doSubscribe(registration: ServiceWorkerRegistration) {
   console.log('entrou aqui 5');
-  const registration = await navigator.serviceWorker.ready;
+
+  //const registration = await navigator.serviceWorker.ready;
 
   console.log('entrou aqui 6');
   console.log(registration);
