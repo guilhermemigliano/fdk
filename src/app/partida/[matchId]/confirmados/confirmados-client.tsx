@@ -61,7 +61,7 @@ export default function ConfirmadosClient({
             Nenhum jogador confirmou presença ainda.
           </p>
         ) : (
-          players.map((player) => (
+          players.map((player: any) => (
             <div
               key={player._id}
               className="flex items-center gap-4 p-3 border rounded-lg"
