@@ -25,8 +25,8 @@ export async function updateProfile(formData: FormData) {
   await connectDB();
 
   const raw = {
-    nome: formData.get('nome'),
-    sobrenome: formData.get('sobrenome'),
+    //nome: formData.get('nome'),
+    //sobrenome: formData.get('sobrenome'),
     country: formData.get('country'),
     whatsapp: formData.get('whatsapp'),
     posicao: formData.get('posicao'),

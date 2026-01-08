@@ -32,8 +32,8 @@ export type JogadorInput = z.infer<typeof playerSchema>;
 
 export const updatePlayerSchema = z
   .object({
-    nome: z.string().min(2),
-    sobrenome: z.string().min(2),
+    nome: z.string().min(2).optional(),
+    sobrenome: z.string().min(2).optional(),
     country: z.string().min(2),
     whatsapp: z.string().min(5),
     posicao: z.enum(['Goleiro', 'Jogador']),

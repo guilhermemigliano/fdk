@@ -78,12 +78,19 @@ export default function ProfileClient({ user }: any) {
 
       <Input type="file" accept="image/*" onChange={handleImagem} />
 
-      <Input name="nome" defaultValue={user.nome} placeholder="Nome" required />
+      <Input
+        name="nome"
+        defaultValue={user.nome}
+        placeholder="Nome"
+        required
+        disabled
+      />
       <Input
         name="sobrenome"
         defaultValue={user.sobrenome}
         placeholder="Sobrenome"
         required
+        disabled
       />
 
       {/* País */}
