@@ -28,7 +28,7 @@ export async function criarJogador(formData: FormData) {
     if (!parsed.success) {
       const allErrors = parsed.error.flatten().fieldErrors;
 
-      const firstField = Object.keys(allErrors)[0];
+      const firstField = Object.keys(allErrors)[0] as keyof typeof allErrors;
       const firstMessage = allErrors[firstField]?.[0] ?? 'Erro de validação.';
 
       return {
