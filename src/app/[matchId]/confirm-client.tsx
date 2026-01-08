@@ -34,9 +34,10 @@ export default function ConfirmClient({
         } else if (res.error === 'MATCH_CLOSED') {
           toast.warning('Partida encerrada!');
           router.push('/');
+        } else if (res.error === 'CONFIRMATION_LIMIT_REACHED') {
+          toast.warning('O limite de 16 jogadores já foi atingido.');
         } else {
           toast.warning('Erro ao completar ação.');
-          router.push('/');
         }
       } else if (res?.success) {
         setConfirmed(true);

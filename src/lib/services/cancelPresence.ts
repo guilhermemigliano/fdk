@@ -3,6 +3,7 @@
 import { cookies } from 'next/headers';
 import { verifyJwt } from '@/lib/jwt';
 import { connectDB } from '@/lib/db';
+import { hasMatchExpired } from '@/lib/services/confirmCancelLimit';
 import Match from '@/lib/models/Match';
 
 export async function cancelPresence(matchId: string) {
@@ -21,7 +22,12 @@ export async function cancelPresence(matchId: string) {
   await connectDB();
 
   const match = await Match.findOne({ matchId });
+
   if (!match) return { error: 'MATCH_NOT_FOUND' };
+
+  if (hasMatchExpired(match.date)) {
+    return { error: 'MATCH_CLOSED' };
+  }
 
   if (match.isClosed) return { error: 'MATCH_CLOSED' };
 
