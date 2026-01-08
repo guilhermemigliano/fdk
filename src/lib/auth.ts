@@ -1,3 +1,5 @@
+'use server';
+
 import { cookies } from 'next/headers';
 import { verifyJwt } from './jwt';
 import Player from './models/Player';

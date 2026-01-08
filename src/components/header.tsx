@@ -100,7 +100,9 @@ export function Header({ user }: HeaderProps) {
           </Sheet>
 
           {/* LOGO */}
-          <span className="font-bold text-lg tracking-wide">FDK</span>
+          <Link href="/" className="font-bold text-lg tracking-wide">
+            FDK
+          </Link>
         </div>
 
         {/* DIREITA — USUÁRIO */}
