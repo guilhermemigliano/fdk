@@ -42,7 +42,8 @@ export default function ConfirmarClient({ match, confirmed, userId }: any) {
       reload();
     });
 
-    channel.bind('new-match', () => {
+    channel.bind('newmatch', () => {
+      console.log('teste');
       reloadMatch();
     });
 
