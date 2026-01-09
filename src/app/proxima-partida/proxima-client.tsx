@@ -10,12 +10,12 @@ import { Button } from '@/components/ui/button';
 import { horario_partida } from '@/app/constants/match';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
-import { useRouter } from 'next/navigation';
+//import { useRouter } from 'next/navigation';
 
 export default function ConfirmarClient({ match, confirmed, userId }: any) {
   const [players, setPlayers] = useState(confirmed || []);
   const [isPending, startTransition] = useTransition();
-  const router = useRouter();
+  //const router = useRouter();
 
   const isConfirmed = players.some((p: any) => p._id === userId);
 
@@ -27,7 +27,6 @@ export default function ConfirmarClient({ match, confirmed, userId }: any) {
 
   useEffect(() => {
     const channel = pusherClient.subscribe(`match-${match.matchId}`);
-    const channel2 = pusherClient.subscribe(`newmatch`);
 
     channel.bind('confirmed', () => {
       reload();
@@ -37,13 +36,20 @@ export default function ConfirmarClient({ match, confirmed, userId }: any) {
       reload();
     });
 
-    channel2.bind('newmatch', () => {
+    return () => {
+      pusherClient.unsubscribe(`match-${match.matchId}`);
+    };
+  }, []);
+
+  useEffect(() => {
+    const channel = pusherClient.subscribe(`newmatch`);
+
+    channel.bind('newmatch', () => {
       console.log('teste');
-      router.refresh();
+      window.location.reload();
     });
 
     return () => {
-      pusherClient.unsubscribe(`match-${match.matchId}`);
       pusherClient.unsubscribe(`newmatch`);
     };
   }, []);
