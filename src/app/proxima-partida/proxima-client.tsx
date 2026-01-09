@@ -27,6 +27,7 @@ export default function ConfirmarClient({ match, confirmed, userId }: any) {
 
   useEffect(() => {
     const channel = pusherClient.subscribe(`match-${match.matchId}`);
+    const channel2 = pusherClient.subscribe(`newmatch`);
 
     channel.bind('confirmed', () => {
       reload();
@@ -36,13 +37,14 @@ export default function ConfirmarClient({ match, confirmed, userId }: any) {
       reload();
     });
 
-    channel.bind('newmatch', () => {
+    channel2.bind('newmatch', () => {
       console.log('teste');
       router.refresh();
     });
 
     return () => {
       pusherClient.unsubscribe(`match-${match.matchId}`);
+      pusherClient.unsubscribe(`newmatch`);
     };
   }, []);
 

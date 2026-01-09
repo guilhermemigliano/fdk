@@ -78,12 +78,7 @@ export async function createWeeklyMatchByAdmin() {
     },
   );
 
-  const matchId =
-    String(matchDate.getDate()).padStart(2, '0') +
-    String(matchDate.getMonth() + 1).padStart(2, '0') +
-    String(matchDate.getFullYear());
-
-  await pusherServer.trigger(`match-${matchId}`, 'newmatch', {});
+  await pusherServer.trigger(`newmatch`, 'newmatch', {});
 
   // 🔥 Enviar push para todos admins
   for (const admin of admins) {
