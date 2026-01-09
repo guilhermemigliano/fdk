@@ -13,18 +13,26 @@ import { ptBR } from 'date-fns/locale';
 
 export default function ConfirmarClient({ match, confirmed, userId }: any) {
   const [players, setPlayers] = useState(confirmed || []);
+  const [newMatch, setNewMatch] = useState(match);
   const [isPending, startTransition] = useTransition();
 
   const isConfirmed = players.some((p: any) => p._id === userId);
 
   async function reload() {
-    const res = await fetch(`/api/partidas/${match.matchId}/confirmados`);
+    const res = await fetch(`/api/partidas/${newMatch.matchId}/confirmados`);
     const data = await res.json();
     setPlayers(data.players);
   }
 
+  async function reloadMatch() {
+    const res = await fetch(`/api/nova-partida/`);
+    const data = await res.json();
+    setPlayers(data.confirmation);
+    setNewMatch(data);
+  }
+
   useEffect(() => {
-    const channel = pusherClient.subscribe(`match-${match.matchId}`);
+    const channel = pusherClient.subscribe(`match-${newMatch.matchId}`);
 
     channel.bind('confirmed', () => {
       reload();
@@ -34,14 +42,29 @@ export default function ConfirmarClient({ match, confirmed, userId }: any) {
       reload();
     });
 
+    channel.bind('new-match', () => {
+      reloadMatch();
+    });
+
     return () => {
-      pusherClient.unsubscribe(`match-${match.matchId}`);
+      pusherClient.unsubscribe(`match-${newMatch.matchId}`);
     };
   }, []);
 
+  if (!newMatch) {
+    return (
+      <div className="p-6 text-center">
+        <h1 className="text-xl font-bold">Nenhuma partida disponível</h1>
+        <p className="text-muted-foreground">
+          A próxima partida ainda não foi criada.
+        </p>
+      </div>
+    );
+  }
+
   function handleConfirm() {
     startTransition(async () => {
-      const res = await confirmPresence(match.matchId);
+      const res = await confirmPresence(newMatch.matchId);
       if (res.error) {
         if (res.error === 'MATCH_NOT_FOUND') {
           toast.warning('Partida não encontrada!');
@@ -60,7 +83,7 @@ export default function ConfirmarClient({ match, confirmed, userId }: any) {
 
   function handleCancel() {
     startTransition(async () => {
-      const res = await cancelPresence(match.matchId);
+      const res = await cancelPresence(newMatch.matchId);
       if (res.error) {
         toast.error(res.error);
       } else {
@@ -75,7 +98,7 @@ export default function ConfirmarClient({ match, confirmed, userId }: any) {
 
       <p className="text-center text-muted-foreground">
         {format(
-          new Date(match.date),
+          new Date(newMatch.date),
           `EEEE, dd 'de' MMMM 'às' ${horario_partida}`,
           {
             locale: ptBR,

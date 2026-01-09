@@ -9,6 +9,7 @@ import Player from '@/lib/models/Player';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import { horario_partida } from '@/app/constants/match';
+import { pusherServer } from '@/lib/pusher/server';
 
 export async function createWeeklyMatchByAdmin() {
   const cookieStore = await cookies();
@@ -76,6 +77,13 @@ export async function createWeeklyMatchByAdmin() {
       locale: ptBR,
     },
   );
+
+  const matchId =
+    String(matchDate.getDate()) +
+    String(matchDate.getMonth() + 1) +
+    String(matchDate.getFullYear());
+
+  await pusherServer.trigger(`match-${matchId}`, 'new-match', {});
 
   // 🔥 Enviar push para todos admins
   for (const admin of admins) {
