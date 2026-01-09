@@ -148,7 +148,7 @@ export function Header({ user }: HeaderProps) {
                 </DropdownMenuItem> */}
 
                 <DropdownMenuItem asChild>
-                  <Link href="/user/confirmacoes">Confirmações</Link>
+                  <Link href="/proxima-partida">Próxima partida</Link>
                 </DropdownMenuItem>
 
                 {user.role === 'admin' && (
