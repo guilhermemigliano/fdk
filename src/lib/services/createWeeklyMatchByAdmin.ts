@@ -5,6 +5,10 @@ import { cookies } from 'next/headers';
 import { verifyJwt } from '@/lib/jwt';
 import Match from '@/lib/models/Match';
 import { getNextThursday } from '@/lib/date';
+import Player from '@/lib/models/Player';
+import { format } from 'date-fns';
+import { ptBR } from 'date-fns/locale';
+import { horario_partida } from '@/app/constants/match';
 
 export async function createWeeklyMatchByAdmin() {
   const cookieStore = await cookies();
@@ -61,6 +65,35 @@ export async function createWeeklyMatchByAdmin() {
     confirmationPending: [],
     updatedBy: [],
   });
+
+  // 🔥 Buscar todos admins
+  const admins = await Player.find({ role: 'admin' }).select('_id');
+
+  const matchDateFormat = format(
+    new Date(matchDate),
+    `EEEE, dd 'de' MMMM 'às' ${horario_partida}`,
+    {
+      locale: ptBR,
+    },
+  );
+
+  const matchId =
+    String(matchDate.getDate()).padStart(2, '0') +
+    String(matchDate.getMonth() + 1).padStart(2, '0') +
+    String(matchDate.getFullYear());
+
+  // 🔥 Enviar push para todos admins
+  for (const admin of admins) {
+    await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/push/send`, {
+      method: 'POST',
+      body: JSON.stringify({
+        userId: admin._id.toString(),
+        title: 'Novo partida criada!',
+        body: `Data da partida: ${matchDateFormat}`,
+        url: `/partida/${matchId}/confirmados`,
+      }),
+    });
+  }
 
   return { message: 'Partida criada com sucesso!' };
 }

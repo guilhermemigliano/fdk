@@ -63,15 +63,21 @@ export async function confirmPresence(matchId: string) {
     sobrenome: user.sobrenome,
   });
 
-  await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/push/send`, {
-    method: 'POST',
-    body: JSON.stringify({
-      userId: '695e7023dcc9dd5ab564a520',
-      title: 'Novo confirmado!',
-      body: `${user.nome} confirmou presença.`,
-      url: `/partida/${matchId}/confirmados`,
-    }),
-  });
+  // 🔥 Buscar todos admins
+  const admins = await Player.find({ role: 'admin' }).select('_id');
+
+  // 🔥 Enviar push para todos admins
+  for (const admin of admins) {
+    await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/push/send`, {
+      method: 'POST',
+      body: JSON.stringify({
+        userId: admin._id.toString(),
+        title: 'Novo confirmado!',
+        body: `${user.nome} ${user.sobrenome} confirmou presença.`,
+        url: `/partida/${matchId}/confirmados`,
+      }),
+    });
+  }
 
   return { success: true };
 }

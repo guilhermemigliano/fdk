@@ -42,10 +42,27 @@ export async function cancelPresence(matchId: string) {
   await match.save();
 
   const user = await Player.findById(userId).select('nome sobrenome');
+
   await pusherServer.trigger(`match-${matchId}`, 'canceled', {
     nome: user.nome,
     sobrenome: user.sobrenome,
   });
+
+  // 🔥 Buscar todos admins
+  const admins = await Player.find({ role: 'admin' }).select('_id');
+
+  // 🔥 Enviar push para todos admins
+  for (const admin of admins) {
+    await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/push/send`, {
+      method: 'POST',
+      body: JSON.stringify({
+        userId: admin._id.toString(),
+        title: 'Jogador cancelou presença!',
+        body: `${user.nome} ${user.sobrenome} cancelou presença.`,
+        url: `/partida/${matchId}/confirmados`,
+      }),
+    });
+  }
 
   return { success: true };
 }
