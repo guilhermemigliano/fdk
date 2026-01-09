@@ -59,7 +59,7 @@ export async function cancelPresence(matchId: string) {
         userId: admin._id.toString(),
         title: 'Jogador cancelou presença!',
         body: `${user.nome} ${user.sobrenome} cancelou presença.`,
-        url: `/partida/${matchId}/confirmados`,
+        url: `/proxima-partida`,
       }),
     });
   }

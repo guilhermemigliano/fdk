@@ -74,7 +74,7 @@ export async function confirmPresence(matchId: string) {
         userId: admin._id.toString(),
         title: 'Novo confirmado!',
         body: `${user.nome} ${user.sobrenome} confirmou presença.`,
-        url: `/partida/${matchId}/confirmados`,
+        url: `/proxima-partida`,
       }),
     });
   }

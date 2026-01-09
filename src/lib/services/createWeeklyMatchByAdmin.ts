@@ -77,11 +77,6 @@ export async function createWeeklyMatchByAdmin() {
     },
   );
 
-  const matchId =
-    String(matchDate.getDate()).padStart(2, '0') +
-    String(matchDate.getMonth() + 1).padStart(2, '0') +
-    String(matchDate.getFullYear());
-
   // 🔥 Enviar push para todos admins
   for (const admin of admins) {
     await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/push/send`, {
@@ -90,7 +85,7 @@ export async function createWeeklyMatchByAdmin() {
         userId: admin._id.toString(),
         title: 'Novo partida criada!',
         body: `Data da partida: ${matchDateFormat}`,
-        url: `/partida/${matchId}/confirmados`,
+        url: `/proxima-partida`,
       }),
     });
   }
