@@ -12,7 +12,12 @@ import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 //import { useRouter } from 'next/navigation';
 
-export default function ConfirmarClient({ match, confirmed, userId }: any) {
+export default function ConfirmarClient({
+  match,
+  confirmed,
+  userId,
+  userRole,
+}: any) {
   const [players, setPlayers] = useState(confirmed || []);
   const [isPending, startTransition] = useTransition();
   //const router = useRouter();
@@ -95,8 +100,20 @@ export default function ConfirmarClient({ match, confirmed, userId }: any) {
     });
   }
 
+  function handleCancelAdmin(targetPlayerId: string) {
+    startTransition(async () => {
+      const res = await cancelPresence(match.matchId, targetPlayerId);
+
+      if (res.error) {
+        toast.error(res.error);
+      } else {
+        toast.success('Presença cancelada pelo administrador.');
+      }
+    });
+  }
+
   return (
-    <div className="max-w-xl mx-auto p-6 space-y-6">
+    <div className="w-full flex flex-1 items-center justify-start flex-col p-6 space-y-6 ">
       <h1 className="text-2xl font-bold text-center">Próxima Partida</h1>
 
       <p className="text-center text-muted-foreground">
@@ -110,7 +127,7 @@ export default function ConfirmarClient({ match, confirmed, userId }: any) {
       </p>
 
       {/* botão confirm/cancel */}
-      <div className="flex justify-center">
+      <div className="flex justify-center w-full">
         {isConfirmed ? (
           <Button
             onClick={handleCancel}
@@ -127,7 +144,7 @@ export default function ConfirmarClient({ match, confirmed, userId }: any) {
       </div>
 
       {/* Confirmados */}
-      <div>
+      <div className="w-full">
         <h2 className="text-lg font-semibold mb-3">Confirmados</h2>
 
         {players.length === 0 ? (
@@ -135,22 +152,36 @@ export default function ConfirmarClient({ match, confirmed, userId }: any) {
             Nenhum jogador confirmado ainda.
           </p>
         ) : (
-          <div className="grid gap-3">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 w-full">
             {players.map((player: any) => (
               <div
                 key={player._id}
-                className="flex items-center gap-3 border p-2 rounded-lg"
+                className="flex items-center justify-between gap-3 border p-2 rounded-lg w-full"
               >
-                <Image
-                  src={player.fotoBase64 || '/images/user-icon.png'}
-                  width={40}
-                  height={40}
-                  className="rounded-lg"
-                  alt="foto"
-                />
-                <span>
-                  {player.nome} {player.sobrenome}
-                </span>
+                <div className="flex items-center gap-3">
+                  <Image
+                    src={player.fotoBase64 || '/images/user-icon.png'}
+                    width={40}
+                    height={40}
+                    className="rounded-lg"
+                    alt="foto"
+                  />
+                  <span>
+                    {player.nome} {player.sobrenome}
+                  </span>
+                </div>
+
+                {/* 👇 Botão só aparece se for admin */}
+                {userRole === 'admin' && (
+                  <Button
+                    variant="destructive"
+                    size="sm"
+                    onClick={() => handleCancelAdmin(player._id)}
+                    disabled={isPending}
+                  >
+                    {isPending ? '...' : 'X'}
+                  </Button>
+                )}
               </div>
             ))}
           </div>

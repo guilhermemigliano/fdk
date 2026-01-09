@@ -21,7 +21,6 @@ import { createWeeklyMatchByAdmin } from '@/lib/services/createWeeklyMatchByAdmi
 import { toast } from 'sonner';
 import { useTransition } from 'react';
 import { NotifyButton } from '@/components/notify-button';
-import NotificationsButton from './notification.button';
 
 type User = {
   name: string;
@@ -70,9 +69,9 @@ export function Header({ user }: HeaderProps) {
               </Button>
             </SheetTrigger>
 
-            <SheetContent side="left" className="w-64">
+            <SheetContent side="left" className="w-64 p-4">
               <nav className="flex flex-col gap-4 mt-6">
-                <Link href="/" className="text-sm font-medium">
+                <Link href="/" className="text-sm font-medium bg-blue-400">
                   Tela inicial
                 </Link>
 
@@ -106,88 +105,87 @@ export function Header({ user }: HeaderProps) {
             FDK
           </Link>
         </div>
-        {user && <NotifyButton />}
-        {user && <NotificationsButton />}
-
         {/* DIREITA — USUÁRIO */}
+        <div className="flex gap-8">
+          {user && <NotifyButton />}
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              {user ? (
+                <Button
+                  variant="ghost"
+                  className="p-0 rounded-full cursor-pointer"
+                >
+                  <Avatar className="h-9 w-9">
+                    <AvatarImage src={user?.image} />
+                    <AvatarFallback>
+                      {user?.name?.[0]?.toUpperCase()}
+                    </AvatarFallback>
+                  </Avatar>
+                </Button>
+              ) : (
+                <Button
+                  variant="ghost"
+                  className="p-0 rounded-full cursor-pointer"
+                >
+                  <Avatar className="h-9 w-9  border-zinc-800 border">
+                    <AvatarImage src={'/images/user-icon.png'} />
+                    <AvatarFallback></AvatarFallback>
+                  </Avatar>
+                </Button>
+              )}
+            </DropdownMenuTrigger>
 
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            {user ? (
-              <Button
-                variant="ghost"
-                className="p-0 rounded-full cursor-pointer"
-              >
-                <Avatar className="h-9 w-9">
-                  <AvatarImage src={user?.image} />
-                  <AvatarFallback>
-                    {user?.name?.[0]?.toUpperCase()}
-                  </AvatarFallback>
-                </Avatar>
-              </Button>
-            ) : (
-              <Button
-                variant="ghost"
-                className="p-0 rounded-full cursor-pointer"
-              >
-                <Avatar className="h-9 w-9  border-zinc-800 border">
-                  <AvatarImage src={'/images/user-icon.png'} />
-                  <AvatarFallback></AvatarFallback>
-                </Avatar>
-              </Button>
-            )}
-          </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-48">
+              {user ? (
+                <>
+                  <DropdownMenuItem asChild>
+                    <Link href="/user/perfil">Perfil</Link>
+                  </DropdownMenuItem>
 
-          <DropdownMenuContent align="end" className="w-48">
-            {user ? (
-              <>
-                <DropdownMenuItem asChild>
-                  <Link href="/user/perfil">Perfil</Link>
-                </DropdownMenuItem>
-
-                {/* <DropdownMenuItem asChild>
+                  {/* <DropdownMenuItem asChild>
                   <Link href="/minhas-partidas">Minhas partidas</Link>
                 </DropdownMenuItem> */}
 
-                <DropdownMenuItem asChild>
-                  <Link href="/proxima-partida">Próxima partida</Link>
-                </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link href="/proxima-partida">Próxima partida</Link>
+                  </DropdownMenuItem>
 
-                {user.role === 'admin' && (
-                  <>
-                    <DropdownMenuSeparator />
+                  {user.role === 'admin' && (
+                    <>
+                      <DropdownMenuSeparator />
 
-                    <DropdownMenuItem asChild>
-                      <Link href="/admin/partidas">Partidas</Link>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem
-                      onClick={createMatch}
-                      className="cursor-pointer"
-                    >
-                      Criar partida
-                    </DropdownMenuItem>
-                  </>
-                )}
-                <DropdownMenuSeparator />
-                <DropdownMenuItem
-                  onClick={handleLogout}
-                  className="cursor-pointer text-red-600 focus:text-red-600"
-                >
-                  Logout
-                </DropdownMenuItem>
-              </>
-            ) : (
-              <>
-                <DropdownMenuItem asChild>
-                  <Link href="/cadastrar">Cadastrar</Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <Link href="/login">Login</Link>
-                </DropdownMenuItem>
-              </>
-            )}
-          </DropdownMenuContent>
-        </DropdownMenu>
+                      <DropdownMenuItem asChild>
+                        <Link href="/admin/partidas">Partidas</Link>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem
+                        onClick={createMatch}
+                        className="cursor-pointer"
+                      >
+                        Criar partida
+                      </DropdownMenuItem>
+                    </>
+                  )}
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem
+                    onClick={handleLogout}
+                    className="cursor-pointer text-red-600 focus:text-red-600"
+                  >
+                    Logout
+                  </DropdownMenuItem>
+                </>
+              ) : (
+                <>
+                  <DropdownMenuItem asChild>
+                    <Link href="/cadastrar">Cadastrar</Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link href="/login">Login</Link>
+                  </DropdownMenuItem>
+                </>
+              )}
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
       </div>
     </header>
   );

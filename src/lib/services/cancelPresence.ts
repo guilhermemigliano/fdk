@@ -8,7 +8,7 @@ import Match from '@/lib/models/Match';
 import Player from '@/lib/models/Player';
 import { pusherServer } from '@/lib/pusher/server';
 
-export async function cancelPresence(matchId: string) {
+export async function cancelPresence(matchId: string, targetPlayerId?: string) {
   const cookieStore = await cookies();
   const token = cookieStore.get('token')?.value;
 
@@ -35,8 +35,16 @@ export async function cancelPresence(matchId: string) {
 
   const userId = payload.sub;
 
+  if (!(payload.role === 'admin' && targetPlayerId)) {
+    if (match.isClosed) return { error: 'Você não tem permissão' };
+  }
+
+  // Se admin e fornecido um target, cancela outro jogador
+  const playerToRemove =
+    payload.role === 'admin' && targetPlayerId ? targetPlayerId : userId;
+
   match.confirmation = match.confirmation.filter(
-    (id: any) => id.toString() !== userId,
+    (id: any) => id.toString() !== playerToRemove,
   );
 
   await match.save();
@@ -51,6 +59,11 @@ export async function cancelPresence(matchId: string) {
   // 🔥 Buscar todos admins
   const admins = await Player.find({ role: 'admin' }).select('_id');
 
+  const msg =
+    payload.role === 'admin' && targetPlayerId
+      ? `${user.nome} ${user.sobrenome} foi removido da partida`
+      : `${user.nome} ${user.sobrenome} cancelou presença.`;
+
   // 🔥 Enviar push para todos admins
   for (const admin of admins) {
     await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/push/send`, {
@@ -58,7 +71,7 @@ export async function cancelPresence(matchId: string) {
       body: JSON.stringify({
         userId: admin._id.toString(),
         title: 'Jogador cancelou presença!',
-        body: `${user.nome} ${user.sobrenome} cancelou presença.`,
+        body: msg,
         url: `/proxima-partida`,
       }),
     });

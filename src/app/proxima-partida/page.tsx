@@ -40,6 +40,7 @@ export default async function ProximaPartidaPage() {
       match={JSON.parse(JSON.stringify(match))}
       confirmed={JSON.parse(JSON.stringify(confirmedPlayers.confirmation))}
       userId={user._id.toString()}
+      userRole={user.role}
     />
   );
 }
