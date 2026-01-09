@@ -71,7 +71,7 @@ export function Header({ user }: HeaderProps) {
 
             <SheetContent side="left" className="w-64 p-4">
               <nav className="flex flex-col gap-4 mt-6">
-                <Link href="/" className="text-sm font-medium bg-blue-400">
+                <Link href="/" className="text-sm font-medium">
                   Tela inicial
                 </Link>
 

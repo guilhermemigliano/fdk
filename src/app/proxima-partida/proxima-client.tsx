@@ -61,7 +61,7 @@ export default function ConfirmarClient({
 
   if (!match) {
     return (
-      <div className="p-6 text-center">
+      <div className="p-6 text-center w-full">
         <h1 className="text-xl font-bold">Nenhuma partida disponível</h1>
         <p className="text-muted-foreground">
           A próxima partida ainda não foi criada.
@@ -144,11 +144,12 @@ export default function ConfirmarClient({
       </div>
 
       {/* Confirmados */}
-      <div className="w-full">
-        <h2 className="text-lg font-semibold mb-3">Confirmados</h2>
+      <div className="w-full py-4">
+        <hr />
+        <h2 className="text-lg font-semibold mb-3 text-center">Confirmados</h2>
 
         {players.length === 0 ? (
-          <p className="text-muted-foreground text-sm">
+          <p className="text-muted-foreground text-sm text-center">
             Nenhum jogador confirmado ainda.
           </p>
         ) : (
