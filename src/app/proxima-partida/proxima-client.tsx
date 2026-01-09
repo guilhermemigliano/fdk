@@ -43,7 +43,15 @@ export default function ConfirmarClient({ match, confirmed, userId }: any) {
     startTransition(async () => {
       const res = await confirmPresence(match.matchId);
       if (res.error) {
-        toast.error(res.error);
+        if (res.error === 'MATCH_NOT_FOUND') {
+          toast.warning('Partida não encontrada!');
+        } else if (res.error === 'MATCH_CLOSED') {
+          toast.warning('Partida encerrada!');
+        } else if (res.error === 'CONFIRMATION_LIMIT_REACHED') {
+          toast.warning('O limite de 16 jogadores já foi atingido.');
+        } else {
+          toast.warning('Erro ao completar ação.');
+        }
       } else {
         toast.success('Presença confirmada!');
       }
