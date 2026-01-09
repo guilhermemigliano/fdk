@@ -79,8 +79,8 @@ export async function createWeeklyMatchByAdmin() {
   );
 
   const matchId =
-    String(matchDate.getDate()) +
-    String(matchDate.getMonth() + 1) +
+    String(matchDate.getDate()).padStart(2, '0') +
+    String(matchDate.getMonth() + 1).padStart(2, '0') +
     String(matchDate.getFullYear());
 
   await pusherServer.trigger(`match-${matchId}`, 'new-match', {});
