@@ -173,6 +173,7 @@ export default function ConfirmarClient({
                 </div>
 
                 {/* 👇 Botão só aparece se for admin */}
+                {/* {TODO: LEMBRAR QUE QUANDO REMOVER JOGADOR PRECISA ATUALIZAR O SCORE E REMOVER DO TIME1/TIME2} */}
                 {userRole === 'admin' && (
                   <Button
                     variant="destructive"

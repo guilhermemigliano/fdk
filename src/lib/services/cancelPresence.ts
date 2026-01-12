@@ -46,6 +46,17 @@ export async function cancelPresence(matchId: string, targetPlayerId?: string) {
   match.confirmation = match.confirmation.filter(
     (id: any) => id.toString() !== playerToRemove,
   );
+  match.playersTeam1 = match.playersTeam1.filter(
+    (pl: any) => pl.player.toString() !== playerToRemove,
+  );
+  match.playersTeam2 = match.playersTeam2.filter(
+    (pl: any) => pl.player.toString() !== playerToRemove,
+  );
+
+  const score = calculateScore(match);
+
+  match.team1Score = score.team1Score;
+  match.team2Score = score.team2Score;
 
   await match.save();
 
@@ -79,3 +90,24 @@ export async function cancelPresence(matchId: string, targetPlayerId?: string) {
 
   return { success: true };
 }
+
+const calculateScore = (updatedMatch: any) => {
+  const team1Goals =
+    updatedMatch.playersTeam1.reduce((acc: number, p: any) => acc + p.gol, 0) +
+    updatedMatch.playersTeam2.reduce(
+      (acc: number, p: any) => acc + p.golContra,
+      0,
+    );
+
+  const team2Goals =
+    updatedMatch.playersTeam2.reduce((acc: number, p: any) => acc + p.gol, 0) +
+    updatedMatch.playersTeam1.reduce(
+      (acc: number, p: any) => acc + p.golContra,
+      0,
+    );
+
+  updatedMatch.team1Score = team1Goals;
+  updatedMatch.team2Score = team2Goals;
+
+  return updatedMatch;
+};
