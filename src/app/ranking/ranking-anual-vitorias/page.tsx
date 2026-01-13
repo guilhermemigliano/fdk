@@ -1,0 +1,140 @@
+export const dynamic = 'force-dynamic';
+
+import { getRankingAnualVitorias } from '@/lib/services/ranking';
+import Image from 'next/image';
+
+export default async function RankingAnualVitoriasPage({
+  searchParams,
+}: {
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
+}) {
+  const resolved = await searchParams;
+
+  const currentYear = new Date().getFullYear();
+
+  const anoParam = Array.isArray(resolved?.ano)
+    ? resolved.ano[0]
+    : resolved.ano;
+
+  const ano = Number(anoParam) || currentYear;
+
+  const { ranking, totalPartidas } = await getRankingAnualVitorias(ano);
+
+  return (
+    <div className="p-6 max-w-3xl mx-auto space-y-6">
+      <h1 className="text-3xl font-bold text-center">
+        Ranking Anual de Vitórias – {ano}
+      </h1>
+
+      {/* Ano Selector */}
+      <div className="flex justify-center gap-3">
+        {[ano - 1, ano, ano + 1].map((y) => (
+          <a
+            key={y}
+            href={`/ranking/ranking-anual-vitorias?ano=${y}`}
+            className={`px-3 py-2 rounded-md border ${
+              ano === y ? 'bg-blue-600 text-white' : 'bg-white'
+            }`}
+          >
+            {y}
+          </a>
+        ))}
+      </div>
+
+      <p className="text-center text-muted-foreground">
+        Total de partidas: <b>{totalPartidas}</b>
+      </p>
+
+      <div className="space-y-4">
+        {ranking.length === 0 && (
+          <p className="text-center text-muted-foreground">
+            Nenhum dado disponível.
+          </p>
+        )}
+
+        {ranking.map((player, index) => (
+          <div
+            key={player._id}
+            className="flex items-center justify-between border p-4 rounded-xl"
+          >
+            <div className="flex items-center gap-4 w-full">
+              <div className="relative w-10 h-10 shrink-0">
+                <Image
+                  src={player.fotoBase64 || '/images/user-icon.png'}
+                  alt={player.nome}
+                  fill
+                  className="rounded-full object-cover"
+                />
+              </div>
+
+              <div className="flex flex-col flex-1 basis-0">
+                <span className="block truncate whitespace-nowrap overflow-hidden text-ellipsis">
+                  {index + 1}º — {player.nome} {player.sobrenome}
+                </span>
+
+                <span className="text-xs text-muted-foreground">
+                  Jogos: {player.totalJogos} • Vitórias: {player.totalVitorias}{' '}
+                  • Empates: {player.totalEmpates} • Derrotas:{' '}
+                  {player.totalDerrotas}
+                </span>
+              </div>
+            </div>
+
+            <div className="text-right">
+              <span className="text-xl font-bold">{player.totalVitorias}</span>
+              <p className="text-xs text-muted-foreground">vitórias</p>
+            </div>
+          </div>
+          // <div
+          //   key={player._id}
+          //   className="flex flex-col gap-4 items-center justify-between border p-4 rounded-xl"
+          // >
+          //   <div className="flex items-center gap-4 w-full">
+          //     <div className="relative w-10 h-10 shrink-0">
+          //       <Image
+          //         src={player.fotoBase64 || '/images/user-icon.png'}
+          //         alt={player.nome}
+          //         fill
+          //         className="rounded-full object-cover"
+          //       />
+          //     </div>
+
+          //     <div className="flex flex-col flex-1 basis-0">
+          //       <span className="block truncate whitespace-nowrap overflow-hidden text-ellipsis">
+          //         {index + 1}º — {player.nome} {player.sobrenome}
+          //       </span>
+
+          //       <span className="text-xs text-muted-foreground">
+          //         Jogos: {player.totalJogos}
+          //       </span>
+          //     </div>
+          //   </div>
+
+          //   <div className="flex items-center  justify-between w-full space-y-1">
+          //     <div>
+          //       <span className="text-xl font-bold text-center">
+          //         {player.totalVitorias}
+          //       </span>
+          //       <p className="text-xs text-muted-foreground">vitórias</p>
+          //     </div>
+
+          //     <div>
+          //       <span className="text-xl text-center font-bold">
+          //         {player.totalEmpates}
+          //       </span>
+          //       <p className="text-xs text-muted-foreground">empates</p>
+          //     </div>
+
+          //     <div>
+          //       <span className="text-xl text-center font-bold">
+          //         {player.totalDerrotas}
+          //       </span>
+          //       <p className="text-xs text-muted-foreground">derrotas</p>
+          //     </div>
+          //   </div>
+          // </div>
+        ))}
+      </div>
+    </div>
+  );
+}
