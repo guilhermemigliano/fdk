@@ -1,4 +1,5 @@
 import { getLastClosedMatch } from '@/lib/services/getLastClosedMatch';
+import Image from 'next/image';
 
 interface ListPlayerProps {
   player?: { nome: string; sobrenome: string };
@@ -41,7 +42,14 @@ export const MatchItem = async ({ match }: any) => {
     <div className="flex flex-col items-center w-full">
       <div className="flex flex-row p-4 justify-between gap-4 bg-zinc-100/10 rounded-4xl w-full">
         <div className="w-20 h-20 rounded-full  flex items-center justify-center text-white">
-          {team1}
+          <div className="relative w-[90px] h-20">
+            <Image
+              src="/images/time1-logo.png"
+              fill
+              className="w-[90px] h-10"
+              alt="logo time 1"
+            />
+          </div>
         </div>
         <div className="flex flex-col items-center justify-center">
           <div className="flex flex-row gap-8">
@@ -52,7 +60,14 @@ export const MatchItem = async ({ match }: any) => {
           <span className="text-sm text-black font-bold">{formattedDate}</span>
         </div>
         <div className="w-20 h-20 rounded-full flex items-center justify-center text-white">
-          {team2}
+          <div className="relative w-[90px] h-20">
+            <Image
+              src="/images/time2-logo.png"
+              fill
+              className="w-[90px] h-10"
+              alt="logo time 1"
+            />
+          </div>
         </div>
       </div>
       <div className="bg-emerald-700/20 rounded-xl columns-2 w-[85%] mt-2">
