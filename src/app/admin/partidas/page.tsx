@@ -36,7 +36,7 @@ export default async function AdminPartidasPage() {
   }
 
   return (
-    <div className="p-6 space-y-10  flex flex-col items-center justify-center">
+    <div className="flex flex-col h-svh overflow-hidden p-4">
       <h1 className="text-3xl font-bold text-center mb-8">Partidas</h1>
       <div className="flex gap-4 items-center justify-center">
         <div className="bg-green-600 w-1 h-1 rounded-full"></div>
@@ -44,108 +44,48 @@ export default async function AdminPartidasPage() {
         <div className="bg-red-500 w-1 h-1 rounded-full"></div>
         <span className="text-sm">Fechada ({closedMatches()})</span>
       </div>
-
-      {meses.map((mes) => (
-        <div
-          key={mes}
-          className="flex flex-col items-center justify-center gap-2 w-full max-w-3xl"
-        >
-          {/* Cabeçalho do mês */}
-          <h2 className="text-xl font-bold p-2">{mes}</h2>
-          <div className="space-y-4 w-full">
-            {agrupado[mes].map((match) => (
-              <Link
-                key={match.id}
-                href={`/admin/partidas/${match.id}`}
-                className={`flex justify-between w-full items-center border rounded-lg p-4 hover:bg-muted transition ${
-                  match.isClosed
-                    ? 'border-l-red-500 border-2'
-                    : 'border-l-green-600 border-2'
-                }`}
-              >
-                <div className="flex flex-col">
-                  <span className="font-semibold">
-                    {format(new Date(match.date), 'dd/MM/yyyy')}
-                  </span>
-                </div>
-                <span className="text-sm text-muted-foreground">
-                  {match.team1Score} x {match.team2Score}
-                </span>
-
-                {/* Status */}
-                <span
-                  className={`px-3 py-1 text-xs rounded-full text-white w-20 text-center ${
-                    match.isClosed ? 'bg-red-600' : 'bg-green-600'
+      <div className="flex-1 overflow-y-auto p-6 space-y-4 pb-12">
+        {meses.map((mes) => (
+          <div
+            key={mes}
+            className="flex flex-col items-center justify-center gap-2 w-full max-w-3xl"
+          >
+            {/* Cabeçalho do mês */}
+            <h2 className="text-xl font-bold p-2">{mes}</h2>
+            <div className="space-y-4 w-full">
+              {agrupado[mes].map((match) => (
+                <Link
+                  key={match.id}
+                  href={`/admin/partidas/${match.id}`}
+                  className={`flex justify-between w-full items-center border rounded-lg p-4 hover:bg-muted transition ${
+                    match.isClosed
+                      ? 'border-l-red-500 border-2'
+                      : 'border-l-green-600 border-2'
                   }`}
                 >
-                  {match.isClosed ? 'Fechada' : 'Aberta'}
-                </span>
-              </Link>
-            ))}
+                  <div className="flex flex-col">
+                    <span className="font-semibold">
+                      {format(new Date(match.date), 'dd/MM/yyyy')}
+                    </span>
+                  </div>
+                  <span className="text-sm text-muted-foreground">
+                    {match.team1Score} x {match.team2Score}
+                  </span>
+
+                  {/* Status */}
+                  <span
+                    className={`px-3 py-1 text-xs rounded-full text-white w-20 text-center ${
+                      match.isClosed ? 'bg-red-600' : 'bg-green-600'
+                    }`}
+                  >
+                    {match.isClosed ? 'Fechada' : 'Aberta'}
+                  </span>
+                </Link>
+              ))}
+            </div>
           </div>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   );
 }
-
-// import Link from 'next/link';
-// import { getMatchesByMonth } from '@/lib/services/getMatchesByMonth';
-
-// interface Props {
-//   searchParams: Promise<{ month?: string; year?: string }>;
-// }
-
-// export default async function PartidasPage({ searchParams }: Props) {
-//   const params = await searchParams;
-
-//   const now = new Date();
-//   const month = Number(params.month ?? now.getMonth());
-//   const year = Number(params.year ?? now.getFullYear());
-
-//   const matches = await getMatchesByMonth(year, month);
-
-//   const prevMonth = month === 0 ? 11 : month - 1;
-//   const prevYear = month === 0 ? year - 1 : year;
-
-//   const nextMonth = month === 11 ? 0 : month + 1;
-//   const nextYear = month === 11 ? year + 1 : year;
-
-//   return (
-//     <div className="p-6 space-y-6">
-//       <div className="flex justify-between items-center">
-//         <Link href={`/admin/partidas?month=${prevMonth}&year=${prevYear}`}>
-//           ← Anterior
-//         </Link>
-
-//         <h1 className="text-xl font-bold">
-//           {new Date(year, month).toLocaleDateString('pt-BR', {
-//             month: 'long',
-//             year: 'numeric',
-//           })}
-//         </h1>
-
-//         <Link href={`/admin/partidas?month=${nextMonth}&year=${nextYear}`}>
-//           Próximo →
-//         </Link>
-//       </div>
-
-//       <div className="space-y-2">
-//         {matches.map((match: any) => (
-//           <Link
-//             key={match._id}
-//             href={`/admin/partidas/${match._id}`}
-//             className="block border rounded-lg p-4 hover:bg-muted"
-//           >
-//             <div className="flex justify-between">
-//               <span>{new Date(match.date).toLocaleDateString('pt-BR')}</span>
-//               <span className="font-semibold">
-//                 {match.team1Score} x {match.team2Score}
-//               </span>
-//             </div>
-//           </Link>
-//         ))}
-//       </div>
-//     </div>
-//   );
-// }

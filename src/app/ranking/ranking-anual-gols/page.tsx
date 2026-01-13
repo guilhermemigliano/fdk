@@ -21,32 +21,34 @@ export default async function RankingAnualGolsPage({
 
   const { ranking, totalPartidas } = await getRankingAnualGols(ano);
   return (
-    <div className="p-6 max-w-3xl mx-auto space-y-6">
-      <h1 className="text-3xl font-bold text-center">
-        Ranking Anual de Gols – {ano}
-      </h1>
+    <div className="flex flex-col h-svh overflow-hidden">
+      <div className="flex flex-col gap-4 p-6">
+        <h1 className="text-3xl font-bold text-center">
+          Ranking Anual de Gols – {ano}
+        </h1>
 
-      {/* Seletor de ano */}
-      {/* Ano Selector */}
-      <div className="flex justify-center gap-3">
-        {[ano - 1, ano, ano + 1].map((y) => (
-          <a
-            key={y}
-            href={`/ranking/ranking-anual-gols?ano=${y}`}
-            className={`px-3 py-2 rounded-md border ${
-              ano === y ? 'bg-black text-white' : 'bg-white'
-            }`}
-          >
-            {y}
-          </a>
-        ))}
+        {/* Seletor de ano */}
+        {/* Ano Selector */}
+        <div className="flex justify-center gap-3">
+          {[ano - 1, ano, ano + 1].map((y) => (
+            <a
+              key={y}
+              href={`/ranking/ranking-anual-gols?ano=${y}`}
+              className={`px-3 py-2 rounded-md border ${
+                ano === y ? 'bg-black text-white' : 'bg-white'
+              }`}
+            >
+              {y}
+            </a>
+          ))}
+        </div>
+
+        <p className="text-center text-muted-foreground">
+          Total de partidas no ano: <b>{totalPartidas}</b>
+        </p>
       </div>
 
-      <p className="text-center text-muted-foreground">
-        Total de partidas no ano: <b>{totalPartidas}</b>
-      </p>
-
-      <div className="space-y-4">
+      <div className="flex-1 overflow-y-auto p-6 space-y-4 pb-12">
         {ranking.length === 0 && (
           <p className="text-center text-muted-foreground">
             Nenhum dado disponível.

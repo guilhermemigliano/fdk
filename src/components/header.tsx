@@ -3,7 +3,13 @@
 import Link from 'next/link';
 import { Menu } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from '@/components/ui/sheet';
 import { logout } from '@/app/logout/actions';
 
 import {
@@ -19,17 +25,10 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { createWeeklyMatchByAdmin } from '@/lib/services/createWeeklyMatchByAdmin';
 
 import { toast } from 'sonner';
-import { useTransition } from 'react';
+import { useState, useTransition } from 'react';
 import { NotifyButton } from '@/components/notify-button';
 
-import {
-  NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  NavigationMenuTrigger,
-} from '@/components/ui/navigation-menu';
+import Image from 'next/image';
 
 type User = {
   name: string;
@@ -43,6 +42,7 @@ interface HeaderProps {
 
 export function Header({ user }: HeaderProps) {
   const [isPending, startTransition] = useTransition();
+  const [open, setOpen] = useState(false);
   const router = useRouter();
 
   async function handleLogout() {
@@ -67,81 +67,52 @@ export function Header({ user }: HeaderProps) {
     });
   }
 
+  function closeSheet() {
+    setOpen(false);
+  }
+
   return (
     <header className="w-full border-b bg-background">
       <div className="flex h-14 items-center justify-between px-4">
         {/*  */}
-        <NavigationMenu>
-          <NavigationMenuList className="flex-wrap">
-            <NavigationMenuItem className="hidden md:block">
-              <NavigationMenuTrigger>
-                <Menu className="h-5 w-5" />
-              </NavigationMenuTrigger>
-              <NavigationMenuContent>
-                <ul className="grid w-[300px] gap-4">
-                  <li>
-                    <NavigationMenuLink asChild>
-                      <Link href="/">
-                        <div className="font-medium">Tela inicial</div>
-                      </Link>
-                    </NavigationMenuLink>
-                    <NavigationMenuLink asChild>
-                      <Link
-                        href="/ranking/ranking-geral-gols"
-                        className="text-sm font-medium"
-                      >
-                        Ranking geral de gols
-                      </Link>
-                    </NavigationMenuLink>
-                    <NavigationMenuLink asChild>
-                      <Link
-                        href="/ranking/ranking-anual-gols"
-                        className="text-sm font-medium"
-                      >
-                        Ranking anual de gols
-                      </Link>
-                    </NavigationMenuLink>
-                    <NavigationMenuLink asChild>
-                      <Link
-                        href="/ranking/ranking-geral-vitorias"
-                        className="text-sm font-medium"
-                      >
-                        Ranking vitórias geral
-                      </Link>
-                    </NavigationMenuLink>
-                    <NavigationMenuLink asChild>
-                      <Link
-                        href="/ranking/ranking-anual-vitorias"
-                        className="text-sm font-medium"
-                      >
-                        Ranking vitórias anual
-                      </Link>
-                    </NavigationMenuLink>
-                  </li>
-                </ul>
-              </NavigationMenuContent>
-            </NavigationMenuItem>
-          </NavigationMenuList>
-        </NavigationMenu>
+        <div className="relative w-20 h-14">
+          <Link href="/" className="font-bold text-lg tracking-wide">
+            <Image
+              src="/images/fdk-logo.png"
+              fill
+              alt="logo fdk"
+              className=""
+            />
+          </Link>
+        </div>
         {/*  */}
         {/* ESQUERDA — MENU MOBILE */}
         <div className="flex items-center gap-3">
-          <Sheet>
+          <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon">
                 <Menu className="h-5 w-5" />
+                MENU
               </Button>
             </SheetTrigger>
 
             <SheetContent side="left" className="w-64 p-4">
+              <SheetHeader>
+                <SheetTitle className="sr-only">Menu</SheetTitle>
+              </SheetHeader>
               <nav className="flex flex-col gap-4 mt-6">
-                <Link href="/" className="text-sm font-medium">
+                <Link
+                  href="/"
+                  className="text-sm font-medium"
+                  onClick={closeSheet}
+                >
                   Tela inicial
                 </Link>
 
                 <Link
                   href="/ranking/ranking-geral-gols"
                   className="text-sm font-medium"
+                  onClick={closeSheet}
                 >
                   Ranking geral de gols
                 </Link>
@@ -149,6 +120,7 @@ export function Header({ user }: HeaderProps) {
                 <Link
                   href="/ranking/ranking-anual-gols"
                   className="text-sm font-medium"
+                  onClick={closeSheet}
                 >
                   Ranking anual de gols
                 </Link>
@@ -156,6 +128,7 @@ export function Header({ user }: HeaderProps) {
                 <Link
                   href="/ranking/ranking-geral-vitorias"
                   className="text-sm font-medium"
+                  onClick={closeSheet}
                 >
                   Ranking vitórias geral
                 </Link>
@@ -163,6 +136,7 @@ export function Header({ user }: HeaderProps) {
                 <Link
                   href="/ranking/ranking-anual-vitorias"
                   className="text-sm font-medium"
+                  onClick={closeSheet}
                 >
                   Ranking vitórias anual
                 </Link>
@@ -171,9 +145,6 @@ export function Header({ user }: HeaderProps) {
           </Sheet>
 
           {/* LOGO */}
-          <Link href="/" className="font-bold text-lg tracking-wide">
-            FDK
-          </Link>
         </div>
         {/* DIREITA — USUÁRIO */}
         <div className="flex gap-8">

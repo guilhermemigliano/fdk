@@ -22,9 +22,9 @@ export default async function RankingAnualVitoriasPage({
 
   return (
     <div className="flex flex-col h-svh overflow-hidden">
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-4 p-6">
         <h1 className="text-3xl font-bold text-center">
-          Ranking Anual de Vitórias – {ano}
+          Ranking Anual de Vitórias
         </h1>
 
         {/* Ano Selector */}

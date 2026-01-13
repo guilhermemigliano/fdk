@@ -128,7 +128,7 @@ export default function ConfirmarClient({
   }
 
   return (
-    <div className="w-full flex flex-1 items-center justify-start flex-col p-6 space-y-6 ">
+    <div className="w-full flex flex-1 items-center justify-start flex-col p-6 space-y-6 h-svh overflow-hidden">
       <h1 className="text-2xl font-bold text-center">Próxima Partida</h1>
 
       <p className="text-center text-muted-foreground">
@@ -159,8 +159,8 @@ export default function ConfirmarClient({
       </div>
 
       {/* Confirmados */}
-      <div className="w-full py-4">
-        <hr />
+      <div className="flex-1 overflow-y-auto space-y-2 pb-12 w-full">
+        <hr className="p-2" />
         <h2 className="text-lg font-semibold mb-3 text-center">Confirmados</h2>
 
         {players.length === 0 ? (

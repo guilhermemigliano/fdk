@@ -5,14 +5,18 @@ export default async function RankingGeralGolsPage() {
   const { ranking, totalPartidas } = await getRankingGeralGols();
 
   return (
-    <div className="p-6 max-w-3xl mx-auto space-y-6 ">
-      <h1 className="text-3xl font-bold text-center">Ranking Geral de Gols</h1>
+    <div className="flex flex-col h-svh overflow-hidden">
+      <div className="p-6">
+        <h1 className="text-3xl font-bold text-center">
+          Ranking Geral de Gols
+        </h1>
 
-      <p className="text-center text-muted-foreground">
-        Total de partidas registradas: <b>{totalPartidas}</b>
-      </p>
+        <p className="text-center text-muted-foreground">
+          Total de partidas registradas: <b>{totalPartidas}</b>
+        </p>
+      </div>
 
-      <div className="space-y-4">
+      <div className="flex-1 overflow-y-auto p-6 space-y-4 pb-12">
         {ranking.length === 0 && (
           <p className="text-center text-muted-foreground">
             Nenhum dado disponível.
