@@ -1,16 +1,25 @@
+export const dynamic = 'force-dynamic';
+
 import { getRankingAnualGols } from '@/lib/services/ranking';
 import Image from 'next/image';
+import Link from 'next/link';
 
 export default async function RankingAnualGolsPage({
   searchParams,
 }: {
-  searchParams: { ano?: string };
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
 }) {
+  const resolved = await searchParams;
+
   const currentYear = new Date().getFullYear();
-  const ano = Number(searchParams.ano) || currentYear;
+
+  const anoParam = Array.isArray(resolved?.ano)
+    ? resolved.ano[0]
+    : resolved.ano;
+
+  const ano = Number(anoParam) || currentYear;
 
   const { ranking, totalPartidas } = await getRankingAnualGols(ano);
-
   return (
     <div className="p-6 max-w-3xl mx-auto space-y-6">
       <h1 className="text-3xl font-bold text-center">
@@ -18,18 +27,22 @@ export default async function RankingAnualGolsPage({
       </h1>
 
       {/* Seletor de ano */}
-      <div className="flex justify-center gap-3">
-        {[currentYear - 1, currentYear, currentYear + 1].map((y) => (
-          <a
-            key={y}
-            href={`/ranking/ranking-anual-gols?ano=${y}`}
-            className={`px-3 py-2 rounded-md border ${
-              ano === y ? 'bg-blue-600 text-white' : 'bg-white'
-            }`}
-          >
-            {y}
-          </a>
-        ))}
+      <div className="flex justify-center items-center gap-4">
+        <a
+          href={`/ranking/ranking-anual-gols?ano=${ano - 1}`}
+          className="p-2 rounded-md border bg-white hover:bg-gray-100"
+        >
+          ←
+        </a>
+
+        <span className="font-bold text-xl">{ano}</span>
+
+        <a
+          href={`/ranking/ranking-anual-gols?ano=${ano + 1}`}
+          className="p-2 rounded-md border bg-white hover:bg-gray-100"
+        >
+          →
+        </a>
       </div>
 
       <p className="text-center text-muted-foreground">
