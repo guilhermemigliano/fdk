@@ -74,43 +74,6 @@ export default function WizardClient({ match, todosJogadores }: any) {
           </Button>
         )}
 
-        <div className="flex flex-col items-center gap-2">
-          <h1 className="text-2xl font-bold">
-            Time 1 - {data.team1Score} x {data.team2Score} - Time 2
-          </h1>
-          <p>Partida: {matchDateFormat}</p>
-          <div className="flex gap-3">
-            <Button
-              type="button"
-              variant="destructive"
-              onClick={() => toggleClosed(false)}
-              className={cn(
-                'px-2 py-2 bg-blue-500 text-blue-500',
-                !data.isClosed
-                  ? 'bg-green-600 hover:bg-green-700 text-white border-green-700'
-                  : 'bg-white hover:bg-gray-100 text-black border',
-              )}
-            >
-              Aberta
-            </Button>
-
-            {/* Botão FECHADA */}
-            <Button
-              type="button"
-              variant="outline"
-              onClick={() => toggleClosed(true)}
-              className={cn(
-                'px-3 py-2 bg-blue-500',
-                data.isClosed
-                  ? 'bg-red-600 hover:bg-red-700 text-white border-red-700'
-                  : 'bg-white hover:bg-gray-100 text-black border',
-              )}
-            >
-              Fechada
-            </Button>
-          </div>
-        </div>
-
         {step < 4 ? (
           <Button onClick={() => setStep(step + 1)}>Avançar</Button>
         ) : (
@@ -118,6 +81,43 @@ export default function WizardClient({ match, todosJogadores }: any) {
             {isPending ? 'Salvando...' : 'Salvar'}
           </Button>
         )}
+      </div>
+
+      <div className="flex flex-col items-center gap-2">
+        <h1 className="text-2xl font-bold">
+          Time 1 - {data.team1Score} x {data.team2Score} - Time 2
+        </h1>
+        <p>Partida: {matchDateFormat}</p>
+        <div className="flex gap-3">
+          <Button
+            type="button"
+            variant="destructive"
+            onClick={() => toggleClosed(false)}
+            className={cn(
+              'px-2 py-2 bg-blue-500 text-blue-500',
+              !data.isClosed
+                ? 'bg-green-600 hover:bg-green-700 text-white border-green-700'
+                : 'bg-white hover:bg-gray-100 text-black border',
+            )}
+          >
+            Aberta
+          </Button>
+
+          {/* Botão FECHADA */}
+          <Button
+            type="button"
+            variant="outline"
+            onClick={() => toggleClosed(true)}
+            className={cn(
+              'px-3 py-2 bg-blue-500',
+              data.isClosed
+                ? 'bg-red-600 hover:bg-red-700 text-white border-red-700'
+                : 'bg-white hover:bg-gray-100 text-black border',
+            )}
+          >
+            Fechada
+          </Button>
+        </div>
       </div>
 
       {step === 1 && (

@@ -75,26 +75,32 @@ export function Header({ user }: HeaderProps) {
                   Tela inicial
                 </Link>
 
-                <Link href="/ranking/gols" className="text-sm font-medium">
+                <Link
+                  href="/ranking-geral-gols"
+                  className="text-sm font-medium"
+                >
                   Ranking geral de gols
                 </Link>
 
                 <Link
-                  href="/ranking/gols-anual"
+                  href="/ranking-anual-gols"
                   className="text-sm font-medium"
                 >
                   Ranking anual de gols
                 </Link>
 
                 <Link
-                  href="/ranking/vitorias-anual"
+                  href="/ranking-geral-vitorias"
+                  className="text-sm font-medium"
+                >
+                  Ranking vitórias geral
+                </Link>
+
+                <Link
+                  href="/ranking-anual-vitorias"
                   className="text-sm font-medium"
                 >
                   Ranking vitórias anual
-                </Link>
-
-                <Link href="/ranking/vitorias" className="text-sm font-medium">
-                  Ranking vitórias geral
                 </Link>
               </nav>
             </SheetContent>

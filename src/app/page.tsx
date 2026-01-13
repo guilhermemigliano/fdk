@@ -105,7 +105,6 @@ export default async function HomePage() {
           <span className="font-bold text-black">Última partida</span>
           <MatchItem match={match} />
         </div>
-        teste
       </main>
     </div>
     // <div className="flex flex-1 flex-col bg-[url('/images/background.png')] bg-cover">
