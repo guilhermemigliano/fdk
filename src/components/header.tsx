@@ -76,28 +76,28 @@ export function Header({ user }: HeaderProps) {
                 </Link>
 
                 <Link
-                  href="/ranking-geral-gols"
+                  href="/ranking/ranking-geral-gols"
                   className="text-sm font-medium"
                 >
                   Ranking geral de gols
                 </Link>
 
                 <Link
-                  href="/ranking-anual-gols"
+                  href="/ranking/ranking-anual-gols"
                   className="text-sm font-medium"
                 >
                   Ranking anual de gols
                 </Link>
 
                 <Link
-                  href="/ranking-geral-vitorias"
+                  href="/ranking/ranking-geral-vitorias"
                   className="text-sm font-medium"
                 >
                   Ranking vitórias geral
                 </Link>
 
                 <Link
-                  href="/ranking-anual-vitorias"
+                  href="/ranking/ranking-anual-vitorias"
                   className="text-sm font-medium"
                 >
                   Ranking vitórias anual
