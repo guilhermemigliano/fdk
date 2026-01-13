@@ -160,13 +160,15 @@ export default function ConfirmarClient({
                 className="flex items-center justify-between gap-3 border p-2 rounded-lg w-full"
               >
                 <div className="flex items-center gap-3">
-                  <Image
-                    src={player.fotoBase64 || '/images/user-icon.png'}
-                    width={40}
-                    height={40}
-                    className="rounded-lg"
-                    alt="foto"
-                  />
+                  <div className="relative w-10 h-10 shrink-0">
+                    <Image
+                      src={player.fotoBase64 || '/images/user-icon.png'}
+                      alt={player.nome}
+                      fill
+                      className="rounded-full object-cover"
+                    />
+                  </div>
+
                   <span>
                     {player.nome} {player.sobrenome}
                   </span>
