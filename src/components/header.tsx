@@ -45,6 +45,7 @@ export function Header({ user }: HeaderProps) {
   async function createMatch() {
     startTransition(async () => {
       try {
+        toast.success('Partida sendo criada.');
         const res = await createWeeklyMatchByAdmin();
         if (res.error) {
           toast.warning('Partida da semana já existente');

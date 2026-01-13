@@ -22,7 +22,7 @@ export default async function RankingAnualGolsPage({
         {[currentYear - 1, currentYear, currentYear + 1].map((y) => (
           <a
             key={y}
-            href={`/ranking-anual-gols?ano=${y}`}
+            href={`/ranking/ranking-anual-gols?ano=${y}`}
             className={`px-3 py-2 rounded-md border ${
               ano === y ? 'bg-blue-600 text-white' : 'bg-white'
             }`}
