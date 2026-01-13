@@ -41,16 +41,16 @@ export default async function AdminPartidasPage() {
       {meses.map((mes) => (
         <div
           key={mes}
-          className="flex flex-col items-center justify-center gap-2"
+          className="flex flex-col items-center justify-center gap-2 w-full max-w-3xl"
         >
           {/* Cabeçalho do mês */}
           <h2 className="text-xl font-bold capitalize p-2">{mes}</h2>
-          <div className="space-y-4">
+          <div className="space-y-4 w-full">
             {agrupado[mes].map((match) => (
               <Link
                 key={match.id}
                 href={`/admin/partidas/${match.id}`}
-                className="flex justify-between items-center border rounded-lg p-4 hover:bg-muted transition"
+                className="flex justify-between w-full items-center border rounded-lg p-4 hover:bg-muted transition"
               >
                 <div
                   className={`w-0.5 h-full {${
