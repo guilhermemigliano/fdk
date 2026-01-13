@@ -12,6 +12,18 @@ import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 //import { useRouter } from 'next/navigation';
 
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
+
 export default function ConfirmarClient({
   match,
   confirmed,
@@ -20,6 +32,7 @@ export default function ConfirmarClient({
 }: any) {
   const [players, setPlayers] = useState(confirmed || []);
   const [isPending, startTransition] = useTransition();
+  const [selectedPlayer, setSelectedPlayer] = useState<string | null>(null);
   //const router = useRouter();
 
   const isConfirmed = players.some((p: any) => p._id === userId);
@@ -110,6 +123,8 @@ export default function ConfirmarClient({
         toast.success('Presença cancelada pelo administrador.');
       }
     });
+
+    setSelectedPlayer(null);
   }
 
   return (
@@ -177,14 +192,46 @@ export default function ConfirmarClient({
                 {/* 👇 Botão só aparece se for admin */}
                 {/* {TODO: LEMBRAR QUE QUANDO REMOVER JOGADOR PRECISA ATUALIZAR O SCORE E REMOVER DO TIME1/TIME2} */}
                 {userRole === 'admin' && (
-                  <Button
-                    variant="destructive"
-                    size="sm"
-                    onClick={() => handleCancelAdmin(player._id)}
-                    disabled={isPending}
-                  >
-                    {isPending ? '...' : 'X'}
-                  </Button>
+                  <AlertDialog>
+                    <AlertDialogTrigger asChild>
+                      <Button
+                        variant="destructive"
+                        size="sm"
+                        onClick={() => setSelectedPlayer(player._id)}
+                        disabled={isPending}
+                      >
+                        {isPending ? '...' : 'X'}
+                      </Button>
+                    </AlertDialogTrigger>
+
+                    <AlertDialogContent className="max-w-sm mx-auto top-[50%] translate-y-[-50%]">
+                      <AlertDialogHeader>
+                        <AlertDialogTitle>Confirmar remoção</AlertDialogTitle>
+                        <AlertDialogDescription>
+                          Você realmente deseja remover{' '}
+                          <b>
+                            {player.nome} {player.sobrenome}
+                          </b>{' '}
+                          da partida?
+                          <br />
+                          Essa ação não pode ser desfeita.
+                        </AlertDialogDescription>
+                      </AlertDialogHeader>
+
+                      <AlertDialogFooter>
+                        <AlertDialogCancel>Cancelar</AlertDialogCancel>
+
+                        <AlertDialogAction
+                          onClick={() => {
+                            if (selectedPlayer)
+                              handleCancelAdmin(selectedPlayer);
+                          }}
+                        >
+                          Remover
+                        </AlertDialogAction>
+                      </AlertDialogFooter>
+                    </AlertDialogContent>
+                  </AlertDialog>
                 )}
               </div>
             ))}
