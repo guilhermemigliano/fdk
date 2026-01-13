@@ -27,22 +27,19 @@ export default async function RankingAnualGolsPage({
       </h1>
 
       {/* Seletor de ano */}
-      <div className="flex justify-center items-center gap-4">
-        <a
-          href={`/ranking/ranking-anual-gols?ano=${ano - 1}`}
-          className="p-2 rounded-md border bg-white hover:bg-gray-100"
-        >
-          ←
-        </a>
-
-        <span className="font-bold text-xl">{ano}</span>
-
-        <a
-          href={`/ranking/ranking-anual-gols?ano=${ano + 1}`}
-          className="p-2 rounded-md border bg-white hover:bg-gray-100"
-        >
-          →
-        </a>
+      {/* Ano Selector */}
+      <div className="flex justify-center gap-3">
+        {[ano - 1, ano, ano + 1].map((y) => (
+          <a
+            key={y}
+            href={`/ranking/ranking-anual-gols?ano=${y}`}
+            className={`px-3 py-2 rounded-md border ${
+              ano === y ? 'bg-black text-white' : 'bg-white'
+            }`}
+          >
+            {y}
+          </a>
+        ))}
       </div>
 
       <p className="text-center text-muted-foreground">

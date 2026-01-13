@@ -33,7 +33,7 @@ export default async function RankingAnualVitoriasPage({
             key={y}
             href={`/ranking/ranking-anual-vitorias?ano=${y}`}
             className={`px-3 py-2 rounded-md border ${
-              ano === y ? 'bg-blue-600 text-white' : 'bg-white'
+              ano === y ? 'bg-black text-white' : 'bg-white'
             }`}
           >
             {y}
