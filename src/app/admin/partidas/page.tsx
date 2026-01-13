@@ -29,7 +29,7 @@ export default async function AdminPartidasPage() {
   const meses = Object.keys(agrupado);
 
   return (
-    <div className="p-6 space-y-10 max-w-3xl mx-auto">
+    <div className="p-6 space-y-10  flex flex-col items-center justify-center">
       <h1 className="text-3xl font-bold text-center mb-8">Partidas</h1>
       <div className="flex gap-4 items-center justify-center">
         <div className="bg-green-600 w-1 h-1 rounded-full"></div>
@@ -39,10 +39,13 @@ export default async function AdminPartidasPage() {
       </div>
 
       {meses.map((mes) => (
-        <div key={mes} className="space-y-3">
+        <div
+          key={mes}
+          className="flex flex-col items-center justify-center gap-2"
+        >
           {/* Cabeçalho do mês */}
-          <h2 className="text-xl font-bold capitalize">{mes}</h2>
-          <div className="space-y-3">
+          <h2 className="text-xl font-bold capitalize p-2">{mes}</h2>
+          <div className="space-y-4">
             {agrupado[mes].map((match) => (
               <Link
                 key={match.id}
