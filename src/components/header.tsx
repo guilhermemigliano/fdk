@@ -22,6 +22,15 @@ import { toast } from 'sonner';
 import { useTransition } from 'react';
 import { NotifyButton } from '@/components/notify-button';
 
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+} from '@/components/ui/navigation-menu';
+
 type User = {
   name: string;
   image?: string;
@@ -61,6 +70,60 @@ export function Header({ user }: HeaderProps) {
   return (
     <header className="w-full border-b bg-background">
       <div className="flex h-14 items-center justify-between px-4">
+        {/*  */}
+        <NavigationMenu>
+          <NavigationMenuList className="flex-wrap">
+            <NavigationMenuItem className="hidden md:block">
+              <NavigationMenuTrigger>
+                <Menu className="h-5 w-5" />
+              </NavigationMenuTrigger>
+              <NavigationMenuContent>
+                <ul className="grid w-[300px] gap-4">
+                  <li>
+                    <NavigationMenuLink asChild>
+                      <Link href="/">
+                        <div className="font-medium">Tela inicial</div>
+                      </Link>
+                    </NavigationMenuLink>
+                    <NavigationMenuLink asChild>
+                      <Link
+                        href="/ranking/ranking-geral-gols"
+                        className="text-sm font-medium"
+                      >
+                        Ranking geral de gols
+                      </Link>
+                    </NavigationMenuLink>
+                    <NavigationMenuLink asChild>
+                      <Link
+                        href="/ranking/ranking-anual-gols"
+                        className="text-sm font-medium"
+                      >
+                        Ranking anual de gols
+                      </Link>
+                    </NavigationMenuLink>
+                    <NavigationMenuLink asChild>
+                      <Link
+                        href="/ranking/ranking-geral-vitorias"
+                        className="text-sm font-medium"
+                      >
+                        Ranking vitórias geral
+                      </Link>
+                    </NavigationMenuLink>
+                    <NavigationMenuLink asChild>
+                      <Link
+                        href="/ranking/ranking-anual-vitorias"
+                        className="text-sm font-medium"
+                      >
+                        Ranking vitórias anual
+                      </Link>
+                    </NavigationMenuLink>
+                  </li>
+                </ul>
+              </NavigationMenuContent>
+            </NavigationMenuItem>
+          </NavigationMenuList>
+        </NavigationMenu>
+        {/*  */}
         {/* ESQUERDA — MENU MOBILE */}
         <div className="flex items-center gap-3">
           <Sheet>

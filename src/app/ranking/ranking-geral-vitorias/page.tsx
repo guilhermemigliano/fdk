@@ -7,7 +7,7 @@ export default async function RankingGeralVitoriasPage() {
   const { ranking, totalPartidas } = await getRankingGeralVitorias();
 
   return (
-    <div className="flex flex-col h-screen">
+    <div className="flex flex-col h-svh overflow-hidden">
       {/* Cabeçalho fixo */}
       <div className="p-6 pb-3 border-b bg-background">
         <h1 className="text-3xl font-bold text-center">
@@ -20,7 +20,7 @@ export default async function RankingGeralVitoriasPage() {
       </div>
 
       {/* Lista rolável */}
-      <div className="flex-1 overflow-y-auto p-6 space-y-4">
+      <div className="flex-1 overflow-y-auto p-6 space-y-4 pb-12">
         {ranking.length === 0 ? (
           <p className="text-center text-muted-foreground">
             Nenhum dado disponível.
