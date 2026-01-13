@@ -28,14 +28,21 @@ export default async function AdminPartidasPage() {
 
   const meses = Object.keys(agrupado);
 
+  function closedMatches() {
+    return partidas.filter((p) => p.isClosed == true).length;
+  }
+  function openMatches() {
+    return partidas.filter((p) => p.isClosed != true).length;
+  }
+
   return (
     <div className="p-6 space-y-10  flex flex-col items-center justify-center">
       <h1 className="text-3xl font-bold text-center mb-8">Partidas</h1>
       <div className="flex gap-4 items-center justify-center">
         <div className="bg-green-600 w-1 h-1 rounded-full"></div>
-        <span className="text-sm">Aberta</span>
+        <span className="text-sm">Aberta ({openMatches()})</span>
         <div className="bg-red-500 w-1 h-1 rounded-full"></div>
-        <span className="text-sm">Fechada</span>
+        <span className="text-sm">Fechada ({closedMatches()})</span>
       </div>
 
       {meses.map((mes) => (
@@ -44,31 +51,30 @@ export default async function AdminPartidasPage() {
           className="flex flex-col items-center justify-center gap-2 w-full max-w-3xl"
         >
           {/* Cabeçalho do mês */}
-          <h2 className="text-xl font-bold capitalize p-2">{mes}</h2>
+          <h2 className="text-xl font-bold p-2">{mes}</h2>
           <div className="space-y-4 w-full">
             {agrupado[mes].map((match) => (
               <Link
                 key={match.id}
                 href={`/admin/partidas/${match.id}`}
-                className="flex justify-between w-full items-center border rounded-lg p-4 hover:bg-muted transition"
+                className={`flex justify-between w-full items-center border rounded-lg p-4 hover:bg-muted transition ${
+                  match.isClosed
+                    ? 'border-l-red-500 border-2'
+                    : 'border-l-green-600 border-2'
+                }`}
               >
-                <div
-                  className={`w-0.5 h-full {${
-                    match.isClosed ? 'bg-red-500' : 'bg-green-500'
-                  }`}
-                ></div>
                 <div className="flex flex-col">
                   <span className="font-semibold">
                     {format(new Date(match.date), 'dd/MM/yyyy')}
                   </span>
-                  <span className="text-sm text-muted-foreground">
-                    {match.team1Score} x {match.team2Score}
-                  </span>
                 </div>
+                <span className="text-sm text-muted-foreground">
+                  {match.team1Score} x {match.team2Score}
+                </span>
 
                 {/* Status */}
                 <span
-                  className={`px-3 py-1 text-xs rounded-full text-white ${
+                  className={`px-3 py-1 text-xs rounded-full text-white w-20 text-center ${
                     match.isClosed ? 'bg-red-600' : 'bg-green-600'
                   }`}
                 >

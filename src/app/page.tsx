@@ -61,8 +61,8 @@ export const MatchItem = async ({ match }: any) => {
           {playersTeam1.map((pl: any) => {
             return (
               <ListPlayers
-                key={pl.id}
-                player={pl}
+                key={pl.player._id}
+                player={pl.player}
                 gol={pl.gol}
                 golContra={pl.golContra}
               />
@@ -74,8 +74,8 @@ export const MatchItem = async ({ match }: any) => {
           {playersTeam2.map((pl: any) => {
             return (
               <ListPlayers
-                key={pl.id}
-                player={pl}
+                key={pl.player._id}
+                player={pl.player}
                 gol={pl.gol}
                 golContra={pl.golContra}
               />
@@ -88,7 +88,9 @@ export const MatchItem = async ({ match }: any) => {
 };
 
 export default async function HomePage() {
-  const match = await getLastClosedMatch();
+  const partida = await getLastClosedMatch();
+
+  const match = JSON.parse(JSON.stringify(partida));
 
   if (!match) {
     return (
@@ -99,7 +101,7 @@ export default async function HomePage() {
   }
 
   return (
-    <div className="flex flex-1 w-full flex-col bg-[url('/background.png')] bg-cover">
+    <div className="flex flex-1 w-full flex-col bg-[url('/images/background.png')] bg-cover">
       <main className="p-4">
         <div className="mt-2 flex flex-col items-center w-full">
           <span className="font-bold text-black">Última partida</span>
@@ -107,31 +109,5 @@ export default async function HomePage() {
         </div>
       </main>
     </div>
-    // <div className="flex flex-1 flex-col bg-[url('/images/background.png')] bg-cover">
-    //   {/* 🔝 TOPO */}
-    //   <div className="flex flex-col items-center justify-between w-full p-6">
-    //     <span className="font-bold text-black">Última partida</span>
-    //     <div className="flex items-center justify-between w-full">
-    //       <span className="text-xl font-bold">{match.team1}</span>
-
-    //       <div className="text-center">
-    //         <div className="text-3xl font-bold">
-    //           {match.team1Score} x {match.team2Score}
-    //         </div>
-    //         <div className="text-sm text-muted-foreground">
-    //           {new Date(match.date).toLocaleDateString('pt-BR')}
-    //         </div>
-    //       </div>
-
-    //       <span className="text-xl font-bold">{match.team2}</span>
-    //     </div>
-    //   </div>
-
-    //   {/* 🔽 ESCALAÇÕES */}
-    //   <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-    //     <TeamList title={match.team1} players={match.playersTeam1} />
-    //     <TeamList title={match.team2} players={match.playersTeam2} />
-    //   </div>
-    // </div>
   );
 }

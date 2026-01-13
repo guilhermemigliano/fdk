@@ -6,10 +6,14 @@ export async function getLastClosedMatch() {
 
   const match = await Match.findOne({ isClosed: true })
     .sort({ date: -1 })
-    .populate([
-      { path: 'playersTeam1', select: 'nome sobrenome fotoBase64' },
-      { path: 'playersTeam2', select: 'nome sobrenome fotoBase64' },
-    ])
+    .populate({
+      path: 'playersTeam1.player',
+      select: 'nome sobrenome',
+    })
+    .populate({
+      path: 'playersTeam2.player',
+      select: 'nome sobrenome',
+    })
     .lean();
 
   return match;
