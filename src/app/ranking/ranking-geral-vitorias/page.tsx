@@ -29,33 +29,38 @@ export default async function RankingGeralVitoriasPage() {
           ranking.map((player, index) => (
             <div
               key={player._id}
-              className="flex items-center justify-between border p-4 rounded-xl"
+              className="flex items-center justify-start gap-4"
             >
-              <div className="flex items-center gap-4 w-full">
-                <div className="relative w-10 h-10 shrink-0">
-                  <Image
-                    src={player.fotoBase64 || '/images/user-icon.png'}
-                    alt={player.nome}
-                    fill
-                    className="rounded-full object-cover"
-                  />
-                </div>
-
-                <div className="flex flex-col flex-1 basis-0">
-                  <span className="block truncate whitespace-nowrap overflow-hidden text-ellipsis">
-                    {index + 1}º — {player.nome} {player.sobrenome}
-                  </span>
-
-                  <span className="text-xs text-muted-foreground">
-                    Jogos: {player.totalJogos} • Vitórias: {player.vitorias} •
-                    Empates: {player.empates} • Derrotas: {player.derrotas}
-                  </span>
-                </div>
+              <div className="w-5 h-5 bg-black flex items-center justify-center text-center rounded-full">
+                <span className="text-sm text-white">{index + 1}</span>
               </div>
+              <div className="flex items-center justify-between border p-4 rounded-xl flex-1">
+                <div className="flex items-center gap-4 w-full">
+                  <div className="relative w-10 h-10 shrink-0">
+                    <Image
+                      src={player.fotoBase64 || '/images/user-icon.png'}
+                      alt={player.nome}
+                      fill
+                      className="rounded-full object-cover"
+                    />
+                  </div>
 
-              <div className="text-right">
-                <span className="text-xl font-bold">{player.vitorias}</span>
-                <p className="text-xs text-muted-foreground">vitórias</p>
+                  <div className="flex flex-col flex-1 basis-0">
+                    <span className="block truncate whitespace-nowrap overflow-hidden text-ellipsis">
+                      {player.nome} {player.sobrenome}
+                    </span>
+
+                    <span className="text-xs text-muted-foreground">
+                      Jogos: {player.totalJogos} • Empates: {player.empates} •
+                      Derrotas: {player.derrotas}
+                    </span>
+                  </div>
+                </div>
+
+                <div className="text-right">
+                  <span className="text-xl font-bold">{player.vitorias}</span>
+                  <p className="text-xs text-muted-foreground">vitórias</p>
+                </div>
               </div>
             </div>
           ))

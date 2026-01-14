@@ -28,7 +28,7 @@ export default async function RankingGeralGolsPage() {
             key={player._id}
             className="flex items-center justify-start gap-4"
           >
-            <div className="w-5 h-5 bg-blue-400 flex items-center justify-center text-center rounded-full">
+            <div className="w-5 h-5 bg-black flex items-center justify-center text-center rounded-full">
               <span className="text-sm text-white">{index + 1}</span>
             </div>
             <div className="flex items-center justify-between border p-4 rounded-xl flex-1">
