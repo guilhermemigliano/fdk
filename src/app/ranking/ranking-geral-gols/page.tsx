@@ -26,40 +26,45 @@ export default async function RankingGeralGolsPage() {
         {ranking.map((player, index) => (
           <div
             key={player._id}
-            className="flex items-center justify-between border p-4 rounded-xl"
+            className="flex items-center justify-start gap-4"
           >
-            <div className="flex items-center gap-4">
-              <div className="relative w-10 h-10">
-                <Image
-                  src={player.fotoBase64 || '/images/user-icon.png'}
-                  alt={player.nome}
-                  fill
-                  className="rounded-full object-cover"
-                />
-              </div>
+            <div className="w-5 h-5 bg-blue-400 flex items-center justify-center text-center rounded-full">
+              <span className="text-sm text-white">{index + 1}</span>
+            </div>
+            <div className="flex items-center justify-between border p-4 rounded-xl flex-1">
+              <div className="flex items-center gap-4">
+                <div className="relative w-10 h-10">
+                  <Image
+                    src={player.fotoBase64 || '/images/user-icon.png'}
+                    alt={player.nome}
+                    fill
+                    className="rounded-full object-cover"
+                  />
+                </div>
 
-              <div className="flex flex-col flex-1 basis-0">
-                <span
-                  className="
+                <div className="flex flex-col flex-1 basis-0">
+                  <span
+                    className="
         block
         truncate
         whitespace-nowrap
         overflow-hidden
         text-ellipsis
       "
-                >
-                  {player.nome} {player.sobrenome}
-                </span>
+                  >
+                    {player.nome} {player.sobrenome}
+                  </span>
 
-                <span className="text-xs text-muted-foreground">
-                  Jogos: {player.totalJogos}
-                </span>
+                  <span className="text-xs text-muted-foreground">
+                    Jogos: {player.totalJogos}
+                  </span>
+                </div>
               </div>
-            </div>
 
-            <div className="text-right">
-              <span className="text-xl font-bold">{player.totalGols}</span>
-              <p className="text-xs text-muted-foreground">gols</p>
+              <div className="text-right">
+                <span className="text-xl font-bold">{player.totalGols}</span>
+                <p className="text-xs text-muted-foreground">gols</p>
+              </div>
             </div>
           </div>
         ))}
