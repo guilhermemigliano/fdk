@@ -75,10 +75,10 @@ export function Header({ user }: HeaderProps) {
     <header className="w-full border-b bg-background">
       <div className="flex h-14 items-center justify-between px-4">
         {/*  */}
-        <div className="relative w-20 h-14">
+        <div className="relative w-14 h-14">
           <Link href="/" className="font-bold text-lg tracking-wide">
             <Image
-              src="/images/fdk-logo.png"
+              src="/images/fdk-logo-2.jpg"
               fill
               alt="logo fdk"
               className=""

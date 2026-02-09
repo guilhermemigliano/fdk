@@ -62,6 +62,14 @@ export default function StepTeam1({ match, onChange }: any) {
     //onChange(newMatch);
   };
 
+  const confirmationSorted = [...match.confirmation].sort((a: any, b: any) =>
+    `${a.nome} ${a.sobrenome}`.localeCompare(
+      `${b.nome} ${b.sobrenome}`,
+      'pt-BR',
+      { sensitivity: 'base' },
+    ),
+  );
+
   return (
     <div className="space-y-10">
       {/* 🔝 MENSALISTAS */}
@@ -102,7 +110,7 @@ export default function StepTeam1({ match, onChange }: any) {
         <h2 className="font-semibold mb-3">Jogadores</h2>
 
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          {match.confirmation.map((player: any) => {
+          {confirmationSorted.map((player: any) => {
             return (
               <Button
                 key={player.id}
@@ -123,6 +131,27 @@ export default function StepTeam1({ match, onChange }: any) {
               </Button>
             );
           })}
+          {/* {match.confirmation.map((player: any) => {
+            return (
+              <Button
+                key={player.id}
+                className="flex items-center justify-between border rounded-lg p-3 h-auto "
+                variant={'ghost'}
+                onClick={() => addPlayer(player)}
+              >
+                <div className="flex items-center gap-3">
+                  <Avatar className="h-10 w-10">
+                    <AvatarImage src={player.foto} />
+                    <AvatarFallback>{player.nome[0]}</AvatarFallback>
+                  </Avatar>
+
+                  <span className="text-sm">
+                    {player.nome} {player.sobrenome}
+                  </span>
+                </div>
+              </Button>
+            );
+          })} */}
         </div>
       </div>
     </div>
