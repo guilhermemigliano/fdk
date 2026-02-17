@@ -5,10 +5,12 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { toast } from 'sonner';
 import { Loader2 } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
 export default function RecuperarSenha() {
   const [email, setEmail] = useState('');
   const [isPending, startTransition] = useTransition();
+  const router = useRouter();
 
   function handleSubmit() {
     startTransition(async () => {
@@ -22,7 +24,15 @@ export default function RecuperarSenha() {
       if (data.error) {
         toast.error(data.error);
       } else {
-        toast.success('Se o email existir, você receberá instruções.');
+        toast.success('Verifique seu e-mail com as instruções', {
+          action: {
+            label: 'Ir para login',
+            onClick: () => router.push('/login'),
+          },
+        });
+        setTimeout(() => {
+          router.push('/login');
+        }, 5000);
       }
     });
   }

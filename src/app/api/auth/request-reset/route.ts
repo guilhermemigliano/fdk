@@ -13,7 +13,7 @@ export async function POST(req: Request) {
 
   if (!user) {
     return NextResponse.json({
-      success: true,
+      error: 'E-mail não cadastrado.',
     }); // não revelar se existe ou não
   }
 
