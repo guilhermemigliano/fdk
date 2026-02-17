@@ -93,6 +93,14 @@ export default function ProfileClient({ user }: any) {
         disabled
       />
 
+      <Input
+        name="email"
+        type="email"
+        placeholder="E-mail"
+        defaultValue={user.email}
+        required
+      />
+
       {/* País */}
       <Select value={country} onValueChange={setCountry}>
         <SelectTrigger className="w-full">

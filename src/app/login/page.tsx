@@ -27,6 +27,7 @@ import {
 } from '@/components/ui/select';
 
 import { toast } from 'sonner';
+import Link from 'next/link';
 
 export default function LoginPage() {
   const [country, setCountry] = useState('BR');
@@ -108,6 +109,15 @@ export default function LoginPage() {
 
               {/* SENHA */}
               <Input name="senha" type="password" placeholder="Senha" />
+
+              <div className="flex justify-end">
+                <Link
+                  href="/recuperar-senha"
+                  className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                >
+                  Esqueci minha senha
+                </Link>
+              </div>
 
               <Button type="submit" className="w-full" disabled={loading}>
                 {loading ? 'Entrando...' : 'Entrar'}

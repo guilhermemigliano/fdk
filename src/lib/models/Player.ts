@@ -22,6 +22,16 @@ const PlayerSchema = new Schema(
         auth: { type: String },
       },
     },
+    passwordResetToken: { type: String },
+    passwordResetExpires: { type: Date },
+    email: {
+      type: String,
+      unique: true,
+      sparse: true,
+      required: true,
+      lowercase: true,
+      trim: true,
+    },
     acceptTerms: {
       type: Boolean,
       required: true,

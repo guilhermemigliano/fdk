@@ -13,6 +13,7 @@ export async function criarJogador(formData: FormData) {
     const raw = {
       nome: formData.get('nome'),
       sobrenome: formData.get('sobrenome'),
+      email: formData.get('email'),
       whatsapp: formData.get('whatsapp'),
       country: formData.get('country'),
       posicao: formData.get('posicao'),
@@ -36,13 +37,21 @@ export async function criarJogador(formData: FormData) {
       };
     }
 
-    const { whatsapp, country } = parsed.data;
+    const { whatsapp, country, email } = parsed.data;
 
     // 🔥 VALIDAR SE WHATSAPP + COUNTRY É ÚNICO
     const existing = await Player.findOne({ whatsapp, country });
     if (existing) {
       return {
         error: 'Este WhatsApp já está cadastrado.',
+      };
+    }
+
+    const existingEmail = await Player.findOne({ email: email });
+
+    if (existingEmail) {
+      return {
+        error: 'Este e-mail já está cadastrado.',
       };
     }
 

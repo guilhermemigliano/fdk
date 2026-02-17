@@ -29,6 +29,7 @@ export async function updateProfile(formData: FormData) {
     //sobrenome: formData.get('sobrenome'),
     country: formData.get('country'),
     whatsapp: formData.get('whatsapp'),
+    email: formData.get('email'),
     posicao: formData.get('posicao'),
     fotoBase64: formData.get('fotoBase64'),
     senha: formData.get('senha'),
@@ -44,13 +45,25 @@ export async function updateProfile(formData: FormData) {
     };
   }
 
-  const { whatsapp, country } = parsed.data;
+  const { whatsapp, country, email } = parsed.data;
 
   // 🔥 VALIDAR SE WHATSAPP + COUNTRY É ÚNICO
   const existing = await Player.findOne({ whatsapp, country });
   if (existing && existing._id.toString() !== payload.sub) {
     return {
       error: 'Este WhatsApp já está cadastrado.',
+    };
+  }
+
+  // 🔥 VALIDAR SE EMAIL É ÚNICO (exceto o próprio usuário)
+  const existingEmail = await Player.findOne({
+    email: email,
+    _id: { $ne: payload.sub },
+  });
+
+  if (existingEmail) {
+    return {
+      error: 'Este e-mail já está cadastrado.',
     };
   }
 

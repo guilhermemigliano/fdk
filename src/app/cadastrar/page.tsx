@@ -56,6 +56,7 @@ export default function NovoJogadorPage() {
   function validateForm(form: HTMLFormElement) {
     if (!form.nome.value) return 'Preencha o nome';
     if (!form.sobrenome.value) return 'Preencha o sobrenome';
+    if (!form.email.value) return 'Preencha o e-mail';
     if (!country) return 'Selecione um país';
     if (!form.whatsapp.value) return 'Adicione um WhatsApp válido';
     if (!form.posicao.value) return 'Selecione uma posição';
@@ -137,6 +138,15 @@ export default function NovoJogadorPage() {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <Input name="nome" placeholder="Nome" />
                 <Input name="sobrenome" placeholder="Sobrenome" />
+                <div className="sm:col-span-2 w-full">
+                  <Input
+                    name="email"
+                    type="email"
+                    placeholder="Seu e-mail"
+                    required
+                    className="w-full"
+                  />
+                </div>
 
                 {/* SELECT DE PAÍS */}
                 <div className="sm:col-span-2 w-full">

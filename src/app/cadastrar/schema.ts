@@ -9,6 +9,7 @@ export const playerSchema = z
     sobrenome: z
       .string()
       .min(2, { message: 'O sobrenome deve ter pelo menos 2 caracteres.' }),
+    email: z.string().email('E-mail inválido'),
     country: z.string().min(2, { message: 'País é obrigatório' }),
     whatsapp: z.string().min(5, { message: 'Número de WhatsApp inválido' }),
     posicao: z.enum(['Goleiro', 'Jogador'], {
@@ -48,6 +49,7 @@ export const updatePlayerSchema = z
       .string()
       .min(2, { message: 'O sobrenome deve ter pelo menos 2 caracteres.' })
       .optional(),
+    email: z.string().email('E-mail inválido'),
     country: z.string().min(2, { message: 'País é obrigatório' }),
     whatsapp: z.string().min(5, { message: 'Número de WhatsApp inválido' }),
     posicao: z.enum(['Goleiro', 'Jogador'], {
