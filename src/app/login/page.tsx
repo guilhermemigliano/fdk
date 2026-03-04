@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { api } from '@/config/axios';
 import { login } from './actions';
 import { countries } from '@/lib/countries';
 
@@ -61,6 +62,30 @@ export default function LoginPage() {
 
     toast.success('Bem-vindo!');
   }
+
+  // async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  //   try {
+  //     e.preventDefault();
+  //     setLoading(true);
+
+  //     const formData = new FormData(e.currentTarget);
+  //     formData.append('country', country);
+
+  //     const data = Object.fromEntries(formData.entries());
+
+  //     await api.post('/auth/login', data);
+
+  //     const params = new URLSearchParams(window.location.search);
+  //     const redirectTo = params.get('redirect') || '/';
+
+  //     window.location.href = redirectTo;
+  //     toast.success('Bem-vindo!');
+  //   } catch (e: any) {
+  //     toast.warning(e.message);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // }
 
   return (
     <div className="max-w-xl mx-auto mt-10 px-4">

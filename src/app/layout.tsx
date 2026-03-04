@@ -46,17 +46,6 @@ export default async function RootLayout({
               : null
           }
         />
-        {/* <Header
-          user={
-            user
-              ? {
-                  name: user.nome,
-                  image: user.fotoBase64,
-                  role: user.role,
-                }
-              : null
-          }
-        /> */}
         {children}
         <Toaster
           position="top-center"
